@@ -16,9 +16,48 @@
         <div id="post-body" class="post-content">Buscando conteúdo no servidor...</div>
         
         <button id="btn-share" class="btn-secundario hidden">Compartilhar este conteúdo</button>
-    </div>
+        
+        <div class="ia-section">
+            <div id="login-prompt">
+                <p>Faça <a href="index.html">login na página inicial</a> para avaliar este post e conversar com a IA.</p>
+            </div>
+            
+            <div id="ia-tools" class="hidden">
+                <div>
+                    <h3>Avalie este conteúdo:</h3>
+                    <div class="stars-container" id="stars-container">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                    <p id="rating-msg" class="hidden" style="color: green; font-size: 14px;">Obrigado pela sua avaliação!</p>
+                </div>
+                
+                <hr style="margin: 20px 0; border: 1px solid #eee;">
 
-    <!-- O Módulo da IA será inserido aqui na Etapa 6 -->
+                <div>
+                    <h3>Pergunte à IA:</h3>
+                    <p style="font-size: 14px; color: #555; margin-bottom: 10px;">Ficou com dúvida? A IA te responde baseada neste texto.</p>
+                    <textarea id="ia-question" placeholder="Ex: Como posso aplicar a dica 2 no meu dia a dia?" style="min-height: 80px;"></textarea>
+                    <button id="btn-ask-ia">Enviar Pergunta</button>
+                    <p id="ia-loading" class="hidden" style="color: #007BFF; margin-top: 10px; font-weight: bold;">A IA está processando o texto e formulando a resposta...</p>
+                    
+                    <div id="ia-response-container" class="hidden">
+                        <div class="ia-response-box" id="ia-response-text"></div>
+                        
+                        <div class="ia-feedback-area">
+                            <span style="font-size: 14px; color: #666;">A resposta foi útil?</span>
+                            <button id="btn-ia-good" class="btn-secundario">👍 Sim</button>
+                            <button id="btn-ia-bad" style="background-color: #dc3545;">👎 Não</button>
+                            <p id="feedback-msg" class="hidden" style="color: green; font-size: 14px; margin-top: 5px;">Feedback computado!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script type="module" src="post.js"></script>
 </body>
