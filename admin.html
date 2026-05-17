@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Dez-envolvimento</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Painel de Criação</h1>
+        <p><a href="index.html">← Voltar para o Início</a></p>
+    </header>
+
+    <div class="container">
+        <h2>Criar Novo Post</h2>
+        <p id="status-msg" class="hidden">Post publicado com sucesso!</p>
+        
+        <form id="form-post">
+            <label for="titulo">Título do Post</label>
+            <input type="text" id="titulo" required placeholder="Digite um título chamativo">
+
+            <label for="conteudo">Conteúdo (Texto de Valor)</label>
+            <textarea id="conteudo" required placeholder="Escreva seu texto aqui..."></textarea>
+
+            <button type="submit">Publicar Post</button>
+        </form>
+    </div>
+
+    <!-- Script de lógica para salvar no banco -->
+    <script type="module" src="admin.js"></script>
+</body>
+</html>
