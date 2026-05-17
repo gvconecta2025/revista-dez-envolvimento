@@ -20,12 +20,20 @@
 
     <div class="container hidden" id="user-section">
         <h2>Bem-vindo, <span id="user-name"></span>!</h2>
-        <button id="btn-logout">Sair</button>
+        <button id="btn-logout" style="background-color: #dc3545;">Sair</button>
         <br><br>
         <a href="admin.html">👉 Ir para o Painel Admin (Criar Posts)</a>
     </div>
 
-    <!-- Script de lógica do Login -->
+    <!-- Novo Feed de Posts -->
+    <div>
+        <h2>Últimos Conteúdos</h2>
+        <div id="feed-posts">
+            <p>Carregando posts...</p>
+        </div>
+    </div>
+
+    <!-- Script de lógica do Login e do Feed -->
     <script type="module" src="app.js"></script>
 </body>
 </html>
