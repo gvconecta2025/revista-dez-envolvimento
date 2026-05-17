@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revista Dez-envolvimento</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Revista Dez-envolvimento</h1>
+        <p>Conteúdo de valor e desenvolvimento contínuo.</p>
+    </header>
+
+    <div class="container" id="login-section">
+        <h2>Acesse sua conta</h2>
+        <p>Faça login para interagir com o conteúdo e a IA.</p>
+        <button id="btn-login">Entrar com Google</button>
+    </div>
+
+    <div class="container hidden" id="user-section">
+        <h2>Bem-vindo, <span id="user-name"></span>!</h2>
+        <button id="btn-logout">Sair</button>
+        <br><br>
+        <a href="admin.html">👉 Ir para o Painel Admin (Criar Posts)</a>
+    </div>
+
+    <!-- Script de lógica do Login -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
