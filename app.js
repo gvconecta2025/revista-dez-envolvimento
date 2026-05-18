@@ -9,6 +9,7 @@ const userSection = document.getElementById("user-section");
 const userNameSpan = document.getElementById("user-name");
 const feedPosts = document.getElementById("feed-posts");
 const categoryFilters = document.getElementById("category-filters"); 
+const userSectionNav = document.getElementById("user-section-nav");
 
 // Armazena todos os posts na memória do celular para filtro rápido
 let allPosts = []; 
@@ -26,19 +27,37 @@ if(btnLogout) {
     });
 }
 
+// Escutador de estado de Login CORRIGIDO
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        loginSection.classList.add("hidden");
-        userSection.classList.remove("hidden");
-        userNameSpan.textContent = user.displayName;
+        // Exibe o conteúdo e oculta a tela inicial
+        if(loginSection) loginSection.classList.add("hidden");
+        if(userSection) userSection.classList.remove("hidden");
+        if(userNameSpan) userNameSpan.textContent = user.displayName;
+        
+        // Esconde o botão Entrar e exibe o menu Sair/Admin/Perfil
+        if(btnLogin) btnLogin.classList.add("hidden");
+        if(userSectionNav) {
+            userSectionNav.classList.remove("hidden");
+            userSectionNav.style.display = 'flex';
+        }
     } else {
-        loginSection.classList.remove("hidden");
-        userSection.classList.add("hidden");
+        // Exibe tela inicial e oculta conteúdo
+        if(loginSection) loginSection.classList.remove("hidden");
+        if(userSection) userSection.classList.add("hidden");
+        
+        // Exibe o botão Entrar e oculta o menu Sair/Admin/Perfil
+        if(btnLogin) btnLogin.classList.remove("hidden");
+        if(userSectionNav) {
+            userSectionNav.classList.add("hidden");
+            userSectionNav.style.display = 'none';
+        }
     }
 });
 
 // Função para renderizar os cards na tela
 function renderizarPosts(posts) {
+    if(!feedPosts) return;
     feedPosts.innerHTML = ""; 
     
     if(posts.length === 0) {
@@ -47,7 +66,6 @@ function renderizarPosts(posts) {
     }
 
     posts.forEach((item) => {
-        // Pega a categoria para exibir no card (ou 'Geral' se não tiver)
         const catTag = item.post.categoria ? item.post.categoria.toUpperCase() : 'GERAL';
         
         const card = `
@@ -61,7 +79,7 @@ function renderizarPosts(posts) {
     });
 }
 
-// Carregar Posts do Feed (Baixa do Firebase apenas 1 vez)
+// Carregar Posts do Feed
 async function carregarFeed() {
     if(!feedPosts) return;
     
@@ -85,7 +103,6 @@ async function carregarFeed() {
 if(categoryFilters) {
     categoryFilters.addEventListener("click", (e) => {
         if(e.target.tagName === "BUTTON") {
-            // Ajusta o visual do botão clicado
             Array.from(categoryFilters.children).forEach(btn => {
                 btn.style.backgroundColor = "#f1f5f9";
                 btn.style.color = "black";
@@ -93,7 +110,6 @@ if(categoryFilters) {
             e.target.style.backgroundColor = "#0f172a";
             e.target.style.color = "white";
 
-            // Filtra os dados
             const categoriaSelecionada = e.target.getAttribute("data-categoria");
             
             if (categoriaSelecionada === "todas") {
