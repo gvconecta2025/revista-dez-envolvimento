@@ -3,34 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Admin - Dez-envolvimento</title>
+    <title>Painel Admin - DEZ-ENVOLVE</title>
     <link rel="stylesheet" href="style.css">
-
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#007BFF">
+    <meta name="theme-color" content="#0f172a">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <script src="pwa.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Painel de Criação</h1>
-        <p><a href="index.html">← Voltar para o Início</a></p>
-    </header>
+    <nav class="navbar">
+        <a href="index.html" class="brand-container">
+            <img src="icons/icon-192.png" alt="Logo" class="nav-icon">
+            <span class="brand" style="font-size: 1rem;">← Voltar</span>
+        </a>
+    </nav>
 
-    <div class="container">
-        <h2>Criar Novo Post</h2>
-        <p id="status-msg" class="hidden">Post publicado com sucesso!</p>
-        
-        <form id="form-post">
-            <label for="titulo">Título do Post</label>
-            <input type="text" id="titulo" required placeholder="Digite um título chamativo">
+    <div class="main-wrapper">
+        <div class="container">
+            <h2>Criar Novo Post</h2>
+            <p id="status-msg" class="hidden">Post publicado com sucesso!</p>
+            
+            <form id="form-post">
+                <label for="titulo" style="font-weight: 600;">Título do Post</label>
+                <input type="text" id="titulo" required placeholder="Digite um título chamativo">
 
-            <label for="conteudo">Conteúdo (Texto de Valor)</label>
-            <textarea id="conteudo" required placeholder="Escreva seu texto aqui..."></textarea>
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Conteúdo (Texto, formatações e imagens)</label>
+                <div id="editor-container"></div>
 
-            <button type="submit">Publicar Post</button>
-        </form>
+                <button type="submit" class="btn-primary" style="margin-top: 20px;">Publicar Artigo</button>
+            </form>
+        </div>
     </div>
 
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script type="module" src="admin.js"></script>
 </body>
 </html>
