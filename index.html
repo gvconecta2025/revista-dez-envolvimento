@@ -1,44 +1,45 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DEZ-ENVOLVE (revista)</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0f172a">
-    <script src="pwa.js" defer></script>
-</head>
-<body>
-    <nav class="navbar">
-        <a href="index.html" class="brand-container">
-            <img src="icons/icon-192.png" alt="Logo" class="nav-icon">
-            <span class="brand">DEZ-ENVOLVE</span>
-        </a>
-        <div class="nav-links" id="user-section" class="hidden">
-            <a href="perfil.html">Meu Perfil</a>
-            <a href="admin.html">Admin</a>
-            <button id="btn-logout" class="btn-danger" style="padding: 5px 10px; font-size: 12px;">Sair</button>
-        </div>
-    </nav>
+<style>
+    .scroll-menu {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        padding: 10px 0;
+        margin-bottom: 20px;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none;  /* IE and Edge */
+    }
+    .scroll-menu::-webkit-scrollbar {
+        display: none; /* Safari e Chrome */
+    }
+    .filter-btn {
+        background-color: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        border-radius: 20px;
+        padding: 8px 16px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        transition: all 0.3s ease;
+    }
+    /* O primeiro botão começa com o visual ativo */
+    .filter-btn.active {
+        background-color: #0f172a;
+        color: white;
+    }
+</style>
 
-    <div class="main-wrapper">
-        <div class="container text-center" id="login-section">
-            <h1>Conteúdo & Inteligência</h1>
-            <p style="color: var(--text-light); margin-bottom: 20px; font-size: 0.95rem;">Faça login para desbloquear a IA interativa nos artigos e salvar seu progresso.</p>
-            <button id="btn-login" class="btn-primary" style="width: 100%; max-width: 280px;">Continuar com Google</button>
-        </div>
-
-        <div class="feed-header">
-            <h2>Últimas Publicações</h2>
-        </div>
-        
-        <div id="feed-posts">
-            <div class="container text-center">
-                <p style="color: var(--text-light); font-size: 0.9rem;">Carregando conteúdos...</p>
-            </div>
-        </div>
-    </div>
-    <script type="module" src="app.js"></script>
-</body>
-</html>
+<div id="category-filters" class="scroll-menu">
+    <button class="filter-btn active" data-categoria="todas" style="background-color: #0f172a; color: white;">Todas as Trilhas</button>
+    <button class="filter-btn" data-categoria="c1">Organização Pessoal</button>
+    <button class="filter-btn" data-categoria="c2">Gestão de Tempo</button>
+    <button class="filter-btn" data-categoria="c3">Método de Estudo</button>
+    <button class="filter-btn" data-categoria="c4">Inteligência Digital e IA</button>
+    <button class="filter-btn" data-categoria="c5">Educação Financeira</button>
+    <button class="filter-btn" data-categoria="c6">Tomada de Decisão</button>
+    <button class="filter-btn" data-categoria="c7">Leitura Crítica</button>
+    <button class="filter-btn" data-categoria="c8">Disciplina e Constância</button>
+    <button class="filter-btn" data-categoria="c9">Autoconhecimento</button>
+    <button class="filter-btn" data-categoria="c10">Comunicação</button>
+    <button class="filter-btn" data-categoria="e1">Profissão e Empreendedorismo</button>
+</div>
