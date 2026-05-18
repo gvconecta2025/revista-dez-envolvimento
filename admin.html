@@ -27,6 +27,25 @@
                 <label for="titulo" style="font-weight: 600;">Título do Post</label>
                 <input type="text" id="titulo" required placeholder="Digite um título chamativo">
 
+                <label for="categoria" style="font-weight: 600; display: block; margin-top: 15px; margin-bottom: 5px;">Trilha de Capacitação (Pais/Família)</label>
+                <select id="categoria" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; background-color: #fff;">
+                    <option value="" disabled selected>Selecione a área de conhecimento...</option>
+                    <optgroup label="Construção e Recuperação">
+                        <option value="c1">C1 - Organização Pessoal</option>
+                        <option value="c2">C2 - Gestão de Tempo</option>
+                        <option value="c3">C3 - Método de Estudo</option>
+                        <option value="c4">C4 - Inteligência Digital e IA</option>
+                        <option value="c5">C5 - Educação Financeira</option>
+                        <option value="c6">C6 - Tomada de Decisão</option>
+                        <option value="c7">C7 - Leitura e Interpretação Crítica</option>
+                        <option value="c8">C8 - Disciplina e Constância</option>
+                        <option value="c9">C9 - Autoconhecimento e Direção</option>
+                        <option value="c10">C10 - Comunicação e Expressão</option>
+                    </optgroup>
+                    <optgroup label="Eixos Práticos">
+                        <option value="e1">Eixo - Profissão e Empreendedorismo</option>
+                    </optgroup>
+                </select>
                 <label style="font-weight: 600; display: block; margin-bottom: 5px;">Conteúdo (Texto, formatações e imagens)</label>
                 <div id="editor-container"></div>
 
