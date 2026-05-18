@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Revista Dez-envolvimento</title>
+    <title>DEZ-ENVOLVE (revista)</title>
     <link rel="stylesheet" href="style.css">
-    
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f172a">
     <script src="pwa.js" defer></script>
 </head>
 <body>
     <nav class="navbar">
-        <a href="index.html" class="brand">Dez-envolvimento</a>
+        <a href="index.html" class="brand-container">
+            <img src="icons/icon-192.png" alt="Logo" class="nav-icon">
+            <span class="brand">DEZ-ENVOLVE</span>
+        </a>
         <div class="nav-links" id="user-section" class="hidden">
             <a href="perfil.html">Meu Perfil</a>
             <a href="admin.html">Admin</a>
@@ -23,7 +25,7 @@
     <div class="main-wrapper">
         <div class="container text-center" id="login-section">
             <h1 style="font-size: 2rem; margin-bottom: 10px;">Conteúdo & Inteligência</h1>
-            <p style="color: var(--text-light); margin-bottom: 25px;">Faça login para desbloquear a IA interativa nos artigos e salvar seu progresso de aprendizado.</p>
+            <p style="color: var(--text-light); margin-bottom: 25px;">Faça login para desbloquear a IA interativa nos artigos e salvar seu progresso.</p>
             <button id="btn-login" class="btn-primary" style="width: 100%; max-width: 300px;">Continuar com Google</button>
         </div>
 
@@ -37,7 +39,6 @@
             </div>
         </div>
     </div>
-
     <script type="module" src="app.js"></script>
 </body>
 </html>
