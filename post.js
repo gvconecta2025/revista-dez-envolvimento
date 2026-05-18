@@ -2,16 +2,15 @@ import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { doc, getDoc, collection, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-// Pegar IDs
 const urlParams = new URLSearchParams(window.location.search);
 const postId = urlParams.get("id");
 
-// Elementos do Post
 const postTitle = document.getElementById("post-title");
 const postBody = document.getElementById("post-body");
-const btnShare = document.getElementById("btn-share");
+const shareContainer = document.getElementById("share-container");
+const btnShareNative = document.getElementById("btn-share-native");
+const btnShareWa = document.getElementById("btn-share-wa");
 
-// Elementos da IA e Autenticação
 const loginPrompt = document.getElementById("login-prompt");
 const iaTools = document.getElementById("ia-tools");
 const stars = document.querySelectorAll(".star");
@@ -25,13 +24,11 @@ const btnIaGood = document.getElementById("btn-ia-good");
 const btnIaBad = document.getElementById("btn-ia-bad");
 const feedbackMsg = document.getElementById("feedback-msg");
 
-// Variáveis Globais de Estado
 let usuarioLogado = null;
 let textoDoPostParaIA = "";
 let notaPost = 0;
 let interacaoAtualId = null;
 
-// 1. Observador de Login
 onAuthStateChanged(auth, (user) => {
     if (user) {
         usuarioLogado = user;
@@ -44,10 +41,8 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// 2. Carrega o Post do Banco
 async function carregarPost() {
     if (!postId) return;
-
     try {
         const docRef = doc(db, "posts", postId);
         const docSnap = await getDoc(docRef);
@@ -56,11 +51,15 @@ async function carregarPost() {
             const post = docSnap.data();
             document.title = post.titulo;
             postTitle.textContent = post.titulo;
-            postBody.textContent = post.conteudo;
-            textoDoPostParaIA = post.conteudo; // Salva texto para a IA ler depois
             
-            btnShare.classList.remove("hidden");
-            btnShare.addEventListener("click", () => {
+            // IMPORTANTE: Agora usa innerHTML para renderizar a formatação rica e imagens do Quill
+            postBody.innerHTML = post.conteudo;
+            textoDoPostParaIA = postBody.innerText; // Pega só o texto limpo para mandar pra IA
+            
+            shareContainer.classList.remove("hidden");
+            
+            // Lógica Botão Nativo (Três pontinhos/Share do sistema)
+            btnShareNative.addEventListener("click", () => {
                 if (navigator.share) {
                     navigator.share({ title: post.titulo, url: window.location.href });
                 } else {
@@ -68,101 +67,78 @@ async function carregarPost() {
                     alert("Link copiado!");
                 }
             });
+
+            // Lógica Botão WhatsApp
+            btnShareWa.addEventListener("click", () => {
+                const mensagem = encodeURIComponent(`Confira este artigo na DEZ-ENVOLVE: ${post.titulo} - ${window.location.href}`);
+                window.open(`https://api.whatsapp.com/send?text=${mensagem}`, "_blank");
+            });
         }
     } catch (error) {
         console.error("Erro ao buscar o post:", error);
     }
 }
 
-// 3. Sistema Lógico das Estrelas
 stars.forEach(star => {
     star.addEventListener("click", () => {
         notaPost = parseInt(star.getAttribute("data-value"));
-        // Limpa todas as estrelas
         stars.forEach(s => s.classList.remove("active"));
-        // Pinta até a estrela clicada
-        for(let i = 0; i < notaPost; i++) {
-            stars[i].classList.add("active");
-        }
+        for(let i = 0; i < notaPost; i++) { stars[i].classList.add("active"); }
         ratingMsg.classList.remove("hidden");
     });
 });
 
-// 4. Fluxo de Pergunta para a IA
 btnAskIa.addEventListener("click", async () => {
     const pergunta = iaQuestion.value.trim();
-    if (!pergunta) {
-        alert("Digite uma pergunta sobre o texto.");
-        return;
-    }
+    if (!pergunta) return alert("Digite uma pergunta sobre o texto.");
 
-    // Bloqueia a interface enquanto processa
     btnAskIa.disabled = true;
     iaLoading.classList.remove("hidden");
     iaResponseContainer.classList.add("hidden");
 
     try {
-        // Envia para o nosso servidor seguro na Vercel
         const respostaServidor = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                pergunta: pergunta,
-                contexto: textoDoPostParaIA
-            })
+            body: JSON.stringify({ pergunta: pergunta, contexto: textoDoPostParaIA })
         });
-
         const dados = await respostaServidor.json();
+        if (!respostaServidor.ok) throw new Error(dados.error || "Erro na API.");
 
-        if (!respostaServidor.ok) {
-            throw new Error(dados.error || "Erro na API.");
-        }
-
-        // Exibe a resposta formatada
         iaResponseText.textContent = dados.resposta;
         iaResponseContainer.classList.remove("hidden");
 
-        // Salva o registro completo da interação no banco de dados
         const docRef = await addDoc(collection(db, "interacoes"), {
             userId: usuarioLogado.uid,
             postId: postId,
-            notaPost: notaPost, // 0 se o usuário não clicou nas estrelas
+            notaPost: notaPost,
             pergunta: pergunta,
             respostaIA: dados.resposta,
-            avaliacaoIA: null, // Fica nulo até o usuário clicar em Útil/Não Útil
+            avaliacaoIA: null,
             data: new Date().toISOString()
         });
-        
         interacaoAtualId = docRef.id;
-
     } catch (error) {
         console.error(error);
         alert("Erro na IA: Verifique o console do navegador.");
     } finally {
-        // Desbloqueia a interface
         btnAskIa.disabled = false;
         iaLoading.classList.add("hidden");
     }
 });
 
-// 5. Avaliação da Resposta da IA (Update no Banco)
 async function avaliarIA(avaliacao) {
     if (!interacaoAtualId) return;
     try {
         const docRef = doc(db, "interacoes", interacaoAtualId);
-        await updateDoc(docRef, {
-            avaliacaoIA: avaliacao
-        });
+        await updateDoc(docRef, { avaliacaoIA: avaliacao });
         feedbackMsg.classList.remove("hidden");
         btnIaGood.disabled = true;
         btnIaBad.disabled = true;
-    } catch(error) {
-        console.error("Erro ao avaliar IA:", error);
-    }
+    } catch(error) { console.error("Erro ao avaliar IA:", error); }
 }
 
 btnIaGood.addEventListener("click", () => avaliarIA("util"));
 btnIaBad.addEventListener("click", () => avaliarIA("nao_util"));
 
-// Executa o carregamento inicial
 carregarPost();
