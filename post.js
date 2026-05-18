@@ -24,6 +24,9 @@ const btnIaGood = document.getElementById("btn-ia-good");
 const btnIaBad = document.getElementById("btn-ia-bad");
 const feedbackMsg = document.getElementById("feedback-msg");
 
+// O nosso espião de inteligência
+const categoryTracker = document.getElementById("post-category-tracker");
+
 let usuarioLogado = null;
 let textoDoPostParaIA = "";
 let notaPost = 0;
@@ -52,13 +55,16 @@ async function carregarPost() {
             document.title = post.titulo;
             postTitle.textContent = post.titulo;
             
-            // IMPORTANTE: Agora usa innerHTML para renderizar a formatação rica e imagens do Quill
+            // Grava a categoria secretamente para uso do Analytics
+            if(categoryTracker) {
+                categoryTracker.value = post.categoria || "Geral";
+            }
+            
             postBody.innerHTML = post.conteudo;
-            textoDoPostParaIA = postBody.innerText; // Pega só o texto limpo para mandar pra IA
+            textoDoPostParaIA = postBody.innerText; 
             
             shareContainer.classList.remove("hidden");
             
-            // Lógica Botão Nativo (Três pontinhos/Share do sistema)
             btnShareNative.addEventListener("click", () => {
                 if (navigator.share) {
                     navigator.share({ title: post.titulo, url: window.location.href });
@@ -68,9 +74,8 @@ async function carregarPost() {
                 }
             });
 
-            // Lógica Botão WhatsApp
             btnShareWa.addEventListener("click", () => {
-                const mensagem = encodeURIComponent(`Confira este artigo na DEZ-ENVOLVE: ${post.titulo} - ${window.location.href}`);
+                const mensagem = encodeURIComponent(`Confira este artigo no Terceiro Espaço: ${post.titulo} - ${window.location.href}`);
                 window.open(`https://api.whatsapp.com/send?text=${mensagem}`, "_blank");
             });
         }
@@ -108,9 +113,13 @@ btnAskIa.addEventListener("click", async () => {
         iaResponseText.textContent = dados.resposta;
         iaResponseContainer.classList.remove("hidden");
 
+        // Captura a categoria salva e envia para o banco de dados
+        const postCategory = categoryTracker ? categoryTracker.value : "Geral";
+
         const docRef = await addDoc(collection(db, "interacoes"), {
             userId: usuarioLogado.uid,
             postId: postId,
+            categoria: postCategory, // <--- NOVA INTELIGÊNCIA AQUI
             notaPost: notaPost,
             pergunta: pergunta,
             respostaIA: dados.resposta,
@@ -120,7 +129,7 @@ btnAskIa.addEventListener("click", async () => {
         interacaoAtualId = docRef.id;
     } catch (error) {
         console.error(error);
-        alert("Erro na IA: Verifique o console do navegador.");
+        alert("Erro na IA: Verifique a conexão ou tente novamente mais tarde.");
     } finally {
         btnAskIa.disabled = false;
         iaLoading.classList.add("hidden");
