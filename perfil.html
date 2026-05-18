@@ -4,28 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meu Perfil - Dez-envolvimento</title>
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css?v=2">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#007BFF">
+    <meta name="theme-color" content="#0f172a">
     <script src="pwa.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Meu Perfil</h1>
-        <p><a href="index.html">← Voltar para o Início</a></p>
-    </header>
+    <nav class="navbar">
+        <a href="index.html" class="brand-container">
+            <img src="icons/icon-192.png" alt="Logo" class="nav-icon">
+            <span class="brand" style="font-size: 1rem;">← Voltar</span>
+        </a>
+    </nav>
 
-    <div class="container">
-        <h2 id="perfil-nome">Carregando dados...</h2>
-        <p id="perfil-email" style="color: #666; margin-bottom: 20px;"></p>
-        <hr style="border: 1px solid #eee; margin-bottom: 20px;">
-        
-        <h3>Meu Histórico de Aprendizado</h3>
-        <p style="font-size: 14px; color: #777; margin-bottom: 20px;">Relembre as perguntas que você fez para a IA e as respostas que recebeu.</p>
-        
-        <div id="historico-container">
-            <p>Buscando suas interações...</p>
+    <div class="main-wrapper">
+        <div class="container post-content">
+            <h2 id="perfil-nome">Carregando dados...</h2>
+            <p id="perfil-email" style="color: #64748b; margin-bottom: 20px;"></p>
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 20px;">
+            
+            <h3>Meu Histórico de Aprendizado</h3>
+            <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 20px;">Relembre as perguntas que você fez para a IA Mentora e as respostas que recebeu.</p>
+            
+            <div id="historico-container">
+                <p>Buscando suas interações...</p>
+            </div>
         </div>
     </div>
 
