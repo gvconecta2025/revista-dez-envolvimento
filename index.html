@@ -7,33 +7,34 @@
     <link rel="stylesheet" href="style.css">
     
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#007BFF">
+    <meta name="theme-color" content="#0f172a">
     <script src="pwa.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Revista Dez-envolvimento</h1>
-        <p>Conteúdo de valor e desenvolvimento contínuo.</p>
-    </header>
+    <nav class="navbar">
+        <a href="index.html" class="brand">Dez-envolvimento</a>
+        <div class="nav-links" id="user-section" class="hidden">
+            <a href="perfil.html">Meu Perfil</a>
+            <a href="admin.html">Admin</a>
+            <button id="btn-logout" class="btn-danger" style="padding: 6px 12px; font-size: 12px;">Sair</button>
+        </div>
+    </nav>
 
-    <div class="container" id="login-section">
-        <h2>Acesse sua conta</h2>
-        <p>Faça login para interagir com o conteúdo e a IA.</p>
-        <button id="btn-login">Entrar com Google</button>
-    </div>
+    <div class="main-wrapper">
+        <div class="container text-center" id="login-section">
+            <h1 style="font-size: 2rem; margin-bottom: 10px;">Conteúdo & Inteligência</h1>
+            <p style="color: var(--text-light); margin-bottom: 25px;">Faça login para desbloquear a IA interativa nos artigos e salvar seu progresso de aprendizado.</p>
+            <button id="btn-login" class="btn-primary" style="width: 100%; max-width: 300px;">Continuar com Google</button>
+        </div>
 
-    <div class="container hidden" id="user-section">
-        <h2>Bem-vindo, <span id="user-name"></span>!</h2>
-        <button id="btn-logout" style="background-color: #dc3545;">Sair</button>
-        <br><br>
-        <a href="perfil.html" style="display: block; margin-bottom: 10px; font-weight: bold; color: #28a745;">👤 Meu Perfil e Histórico com a IA</a>
-        <a href="admin.html">👉 Ir para o Painel Admin (Criar Posts)</a>
-    </div>
-
-    <div>
-        <h2>Últimos Conteúdos</h2>
+        <div class="feed-header">
+            <h2>Últimas Publicações</h2>
+        </div>
+        
         <div id="feed-posts">
-            <p>Carregando posts...</p>
+            <div class="container text-center">
+                <p style="color: var(--text-light);">Carregando conteúdos...</p>
+            </div>
         </div>
     </div>
 
