@@ -1,11 +1,11 @@
 {
-  "name": "Revista Dez-envolvimento",
-  "short_name": "Dez-env",
+  "name": "DEZ-ENVOLVE (revista)",
+  "short_name": "DEZ-ENVOLVE",
   "description": "Conteúdo de valor e desenvolvimento contínuo com IA",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#f4f4f9",
-  "theme_color": "#007BFF",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
   "icons": [
     {
       "src": "/icons/icon-192.png",
