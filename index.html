@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEZ-ENVOLVE - O Terceiro Espaço</title>
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=3">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f172a">
     <script src="pwa.js" defer></script>
@@ -19,7 +19,8 @@
             <button id="btn-login" class="btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;">Entrar</button>
             
             <div id="user-section-nav" class="hidden" style="display: flex; gap: 15px; align-items: center;">
-                <a href="perfil.html" style="font-size: 0.9rem; color: white; text-decoration: underline;">Meu Perfil</a>
+                <a href="admin.html" style="font-size: 0.9rem; color: #10b981; font-weight: bold; text-decoration: none;">Painel Admin</a>
+                <a href="perfil.html" style="font-size: 0.9rem; color: white; text-decoration: underline;">Meu Perfil (Histórico)</a>
                 <button id="btn-logout" class="btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;">Sair</button>
             </div>
         </div>
@@ -43,11 +44,11 @@
                     gap: 10px;
                     padding: 10px 0;
                     margin-bottom: 20px;
-                    scrollbar-width: none; /* Firefox */
-                    -ms-overflow-style: none;  /* IE and Edge */
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
                 }
                 .scroll-menu::-webkit-scrollbar {
-                    display: none; /* Safari e Chrome */
+                    display: none;
                 }
                 .filter-btn {
                     background-color: #f1f5f9;
@@ -87,21 +88,5 @@
     </div>
 
     <script type="module" src="app.js"></script>
-    <script>
-        // Lógica simples extra para esconder botão de login quando logado
-        import { auth } from "./firebase-config.js";
-        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.getElementById('btn-login').classList.add('hidden');
-                document.getElementById('user-section-nav').classList.remove('hidden');
-                document.getElementById('user-section-nav').style.display = 'flex';
-            } else {
-                document.getElementById('btn-login').classList.remove('hidden');
-                document.getElementById('user-section-nav').classList.add('hidden');
-                document.getElementById('user-section-nav').style.display = 'none';
-            }
-        });
-    </script>
 </body>
 </html>
