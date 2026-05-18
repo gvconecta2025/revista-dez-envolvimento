@@ -25,7 +25,14 @@ if(formPost) {
         e.preventDefault(); 
         
         const titulo = document.getElementById("titulo").value;
+        const categoria = document.getElementById("categoria").value;
         
+        // Trava de segurança: impede o envio se a categoria não for selecionada
+        if (!categoria) {
+            alert("Por favor, selecione uma Trilha de Capacitação (Categoria) para os pais antes de publicar.");
+            return;
+        }
+
         // Extrai o HTML com toda a formatação e imagens gerado pelo editor
         const conteudoFormatado = quill.root.innerHTML;
         
@@ -40,15 +47,20 @@ if(formPost) {
         btnSubmit.textContent = "Salvando...";
 
         try {
+            // Salva no banco de dados, agora incluindo o campo 'categoria'
             const docRef = await addDoc(collection(db, "posts"), {
                 titulo: titulo,
+                categoria: categoria,
                 conteudo: conteudoFormatado,
                 dataCriacao: new Date().toISOString()
             });
             
             statusMsg.classList.remove("hidden");
+            
+            // Limpa todos os campos para o próximo post
             document.getElementById("titulo").value = "";
-            quill.setContents([]); // Limpa o editor
+            document.getElementById("categoria").value = ""; 
+            quill.setContents([]); 
             
             setTimeout(() => { statusMsg.classList.add("hidden"); }, 3000);
             
