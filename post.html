@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lendo Post...</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f172a">
     <script src="pwa.js" defer></script>
@@ -33,37 +33,39 @@
             </div>
 
             <div id="post-body" class="post-content">Buscando conteúdo no servidor...</div>
+            
+            <input type="hidden" id="post-category-tracker" value="">
         </div>
         
-        <div class="ia-section">
+        <div class="ia-section ia-module">
             <div id="login-prompt" class="text-center">
                 <h3>Faça login para interagir</h3>
-                <p style="color: var(--text-light); margin-bottom: 15px; font-size: 0.9rem;">Você precisa estar conectado para conversar com a IA.</p>
+                <p style="color: #64748b; margin-bottom: 15px; font-size: 0.9rem;">Você precisa estar conectado para conversar com a IA Mentora.</p>
                 <a href="index.html" class="btn-primary" style="padding: 8px 16px;">Ir para Login</a>
             </div>
             
             <div id="ia-tools" class="hidden">
                 <div class="text-center" style="margin-bottom: 25px;">
                     <h3>Avalie este conteúdo</h3>
-                    <div class="stars-container" id="stars-container" style="justify-content: center;">
+                    <div class="stars-container" id="stars-container" style="display: flex; justify-content: center; gap: 5px; font-size: 1.5rem; cursor: pointer; color: #cbd5e1;">
                         <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                     </div>
                     <p id="rating-msg" class="hidden" style="color: #10b981; font-weight: 600; font-size: 0.85rem;">Obrigado pelo feedback!</p>
                 </div>
-                <hr style="border: 0; border-top: 1px solid var(--border); margin: 0 0 25px 0;">
+                <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 0 0 25px 0;">
                 <div>
                     <h3 style="display: flex; align-items: center; gap: 8px;"><span style="font-size: 1.3rem;">✨</span> Pergunte à IA</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 12px;">Ficou com dúvida? Eu analiso este texto e respondo para você.</p>
-                    <textarea id="ia-question" placeholder="Ex: Como posso aplicar este conceito?"></textarea>
-                    <button id="btn-ask-ia" class="btn-accent" style="width: 100%;">Enviar Pergunta para IA</button>
-                    <div id="ia-loading" class="hidden ia-loading-text"><span>Processando insights...</span></div>
+                    <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 12px;">Ficou com dúvida? Eu analiso este texto e respondo para você.</p>
+                    <textarea id="ia-question" placeholder="Ex: Como posso aplicar esta rotina com meu filho de 14 anos?"></textarea>
+                    <button id="btn-ask-ia" class="btn-primary" style="width: 100%;">Enviar Pergunta para IA</button>
+                    <div id="ia-loading" class="hidden ia-loading-text" style="text-align: center; margin-top: 10px; color: #64748b;"><span>Processando insights...</span></div>
                     <div id="ia-response-container" class="hidden">
-                        <div class="ia-response-box" id="ia-response-text"></div>
-                        <div class="ia-feedback-area">
-                            <span style="font-size: 0.8rem; color: var(--text-light);">Essa resposta te ajudou?</span>
-                            <button id="btn-ia-good" class="btn-outline">👍 Sim</button>
-                            <button id="btn-ia-bad" class="btn-outline">👎 Não</button>
-                            <span id="feedback-msg" class="hidden" style="color: #10b981; font-size: 0.8rem; font-weight: bold;">Salvo!</span>
+                        <div class="ia-response ia-response-box" id="ia-response-text"></div>
+                        <div class="ia-feedback-area" style="margin-top: 15px; text-align: right;">
+                            <span style="font-size: 0.8rem; color: #64748b; margin-right: 10px;">Essa resposta te ajudou?</span>
+                            <button id="btn-ia-good" class="btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;">👍 Sim</button>
+                            <button id="btn-ia-bad" class="btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;">👎 Não</button>
+                            <span id="feedback-msg" class="hidden" style="color: #10b981; font-size: 0.8rem; font-weight: bold; margin-left: 10px;">Salvo!</span>
                         </div>
                     </div>
                 </div>
