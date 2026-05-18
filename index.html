@@ -1,45 +1,107 @@
-<style>
-    .scroll-menu {
-        display: flex;
-        overflow-x: auto;
-        gap: 10px;
-        padding: 10px 0;
-        margin-bottom: 20px;
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none;  /* IE and Edge */
-    }
-    .scroll-menu::-webkit-scrollbar {
-        display: none; /* Safari e Chrome */
-    }
-    .filter-btn {
-        background-color: #f1f5f9;
-        border: 1px solid #cbd5e1;
-        border-radius: 20px;
-        padding: 8px 16px;
-        cursor: pointer;
-        font-weight: 500;
-        font-size: 0.9rem;
-        white-space: nowrap;
-        transition: all 0.3s ease;
-    }
-    /* O primeiro botão começa com o visual ativo */
-    .filter-btn.active {
-        background-color: #0f172a;
-        color: white;
-    }
-</style>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEZ-ENVOLVE - O Terceiro Espaço</title>
+    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <script src="pwa.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="brand-container">
+            <img src="icons/icon-192.png" alt="Logo" class="nav-icon" onerror="this.style.display='none'">
+            <span class="brand">DEZ-ENVOLVE</span>
+        </div>
+        <div id="user-nav">
+            <button id="btn-login" class="btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;">Entrar</button>
+            
+            <div id="user-section-nav" class="hidden" style="display: flex; gap: 15px; align-items: center;">
+                <a href="perfil.html" style="font-size: 0.9rem; color: white; text-decoration: underline;">Meu Perfil</a>
+                <button id="btn-logout" class="btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;">Sair</button>
+            </div>
+        </div>
+    </nav>
 
-<div id="category-filters" class="scroll-menu">
-    <button class="filter-btn active" data-categoria="todas" style="background-color: #0f172a; color: white;">Todas as Trilhas</button>
-    <button class="filter-btn" data-categoria="c1">Organização Pessoal</button>
-    <button class="filter-btn" data-categoria="c2">Gestão de Tempo</button>
-    <button class="filter-btn" data-categoria="c3">Método de Estudo</button>
-    <button class="filter-btn" data-categoria="c4">Inteligência Digital e IA</button>
-    <button class="filter-btn" data-categoria="c5">Educação Financeira</button>
-    <button class="filter-btn" data-categoria="c6">Tomada de Decisão</button>
-    <button class="filter-btn" data-categoria="c7">Leitura Crítica</button>
-    <button class="filter-btn" data-categoria="c8">Disciplina e Constância</button>
-    <button class="filter-btn" data-categoria="c9">Autoconhecimento</button>
-    <button class="filter-btn" data-categoria="c10">Comunicação</button>
-    <button class="filter-btn" data-categoria="e1">Profissão e Empreendedorismo</button>
-</div>
+    <div class="main-wrapper">
+        <div class="login-section" id="login-section">
+            <h2 style="color: #0f172a; margin-bottom: 10px;">Bem-vindo ao Terceiro Espaço</h2>
+            <p style="font-weight: 500;">O guia prático para pais e famílias.</p>
+            <p style="font-size: 0.95rem; color: #64748b; margin-top: 10px;">A escola ensina o "que" pensar, a casa ensina "quem" ser. Nós ensinamos o "como" fazer.</p>
+            <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 20px;">Faça login acima para acessar as Trilhas de Capacitação e a IA Mentora.</p>
+        </div>
+
+        <div id="user-section" class="hidden">
+            <h2 style="margin-bottom: 20px; color: #0f172a; font-size: 1.4rem;">Olá, <span id="user-name"></span>!</h2>
+            
+            <style>
+                .scroll-menu {
+                    display: flex;
+                    overflow-x: auto;
+                    gap: 10px;
+                    padding: 10px 0;
+                    margin-bottom: 20px;
+                    scrollbar-width: none; /* Firefox */
+                    -ms-overflow-style: none;  /* IE and Edge */
+                }
+                .scroll-menu::-webkit-scrollbar {
+                    display: none; /* Safari e Chrome */
+                }
+                .filter-btn {
+                    background-color: #f1f5f9;
+                    border: 1px solid #cbd5e1;
+                    border-radius: 20px;
+                    padding: 8px 16px;
+                    cursor: pointer;
+                    font-weight: 500;
+                    font-size: 0.9rem;
+                    white-space: nowrap;
+                    transition: all 0.3s ease;
+                }
+                .filter-btn.active {
+                    background-color: #0f172a;
+                    color: white;
+                }
+            </style>
+
+            <div id="category-filters" class="scroll-menu">
+                <button class="filter-btn active" data-categoria="todas" style="background-color: #0f172a; color: white;">Todas as Trilhas</button>
+                <button class="filter-btn" data-categoria="c1">Organização Pessoal</button>
+                <button class="filter-btn" data-categoria="c2">Gestão de Tempo</button>
+                <button class="filter-btn" data-categoria="c3">Método de Estudo</button>
+                <button class="filter-btn" data-categoria="c4">Inteligência Digital e IA</button>
+                <button class="filter-btn" data-categoria="c5">Educação Financeira</button>
+                <button class="filter-btn" data-categoria="c6">Tomada de Decisão</button>
+                <button class="filter-btn" data-categoria="c7">Leitura Crítica</button>
+                <button class="filter-btn" data-categoria="c8">Disciplina e Constância</button>
+                <button class="filter-btn" data-categoria="c9">Autoconhecimento</button>
+                <button class="filter-btn" data-categoria="c10">Comunicação</button>
+                <button class="filter-btn" data-categoria="e1">Profissão e Empreendedorismo</button>
+            </div>
+            <div id="feed-posts">
+                <p style="color: #64748b;">Carregando conteúdos...</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+    <script>
+        // Lógica simples extra para esconder botão de login quando logado
+        import { auth } from "./firebase-config.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('btn-login').classList.add('hidden');
+                document.getElementById('user-section-nav').classList.remove('hidden');
+                document.getElementById('user-section-nav').style.display = 'flex';
+            } else {
+                document.getElementById('btn-login').classList.remove('hidden');
+                document.getElementById('user-section-nav').classList.add('hidden');
+                document.getElementById('user-section-nav').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
