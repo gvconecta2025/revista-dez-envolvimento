@@ -3,11 +3,7 @@
 /* ==========================================================================
    RESET E BASE (Padrão Portal de Notícias)
    ========================================================================== */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     background-color: #f3f4f6;
@@ -71,7 +67,7 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* ==========================================================================
-   ESTRUTURA PRINCIPAL (Desktop vs Mobile)
+   ESTRUTURA PRINCIPAL (Desktop)
    ========================================================================== */
 .main-wrapper {
     max-width: 1000px;
@@ -125,7 +121,7 @@ input[type="text"], select, textarea {
 .filter-btn.active { color: #2563eb; border-bottom-color: #2563eb; }
 
 /* ==========================================================================
-   GRID DE NOTÍCIAS (As Manchetes da Capa)
+   GRID DE NOTÍCIAS (As Manchetes)
    ========================================================================== */
 .news-grid {
     display: grid;
@@ -161,83 +157,69 @@ input[type="text"], select, textarea {
 }
 
 /* ==========================================================================
-   PÁGINA DE LEITURA (O Artigo Limpo e Amplo)
+   PÁGINA DE LEITURA (O Artigo Base)
    ========================================================================== */
 .post-content {
-    background: #ffffff; 
-    padding: 35px 30px; 
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-    font-size: 1.15rem; 
-    line-height: 1.8; 
-    color: #374151;
+    background: #ffffff; padding: 30px 20px; border: 1px solid #e5e7eb;
+    font-size: 1.1rem; line-height: 1.8; color: #374151;
 }
-.post-content h1 { font-size: 2.4rem; margin-bottom: 15px; line-height: 1.15; }
-.post-content img { max-width: 100%; height: auto; margin: 24px 0; border-radius: 4px; }
-
-/* Módulo de Inteligência Artificial acoplado sem virar caixa flutuante */
-.ia-module { 
-    background: #f9fafb; 
-    border-top: 2px solid #e5e7eb; 
-    padding: 30px 0 0 0; 
-    margin-top: 40px; 
-}
-.ia-response-box {
-    background-color: #ffffff; border-left: 4px solid #2563eb; padding: 20px;
-    margin-top: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
+.post-content h1 { font-size: 2.2rem; margin-bottom: 15px; line-height: 1.2; }
+.post-content img { max-width: 100%; height: auto; margin: 20px 0; border-radius: 4px;}
+.ia-module { background: #f9fafb; border: 1px solid #e5e7eb; padding: 25px; margin-top: 40px; border-radius: 4px; }
+.ia-response-box { background-color: #ffffff; border-left: 4px solid #2563eb; padding: 20px; margin-top: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
 
 /* ==========================================================================
-   MÍDIA QUERY: BLINDAGEM MOBILE (Elimina caixas e maximiza espaço horizontal)
+   MÍDIA QUERY: RESOLUÇÃO DA LEITURA MOBILE (Fim do Efeito Boneca Russa)
    ========================================================================== */
 @media (max-width: 768px) {
-    body {
-        background-color: #ffffff; /* Fundo branco nativo para sumir as bordas das caixas */
-    }
+    body { background-color: #ffffff; }
     
-    .main-wrapper {
-        padding: 0; /* Zera o recuo da tela inteira lateralmente */
+    .main-wrapper { 
+        padding: 0; /* Remove a margem externa inútil */
     }
 
     .portal-header {
         border-left: none;
         border-bottom: 4px solid #2563eb;
         box-shadow: none;
-        padding: 15px;
+        padding: 15px 12px; /* Margem justa lateral */
         margin-bottom: 10px;
     }
 
-    .scroll-menu {
-        padding-left: 15px;
-        padding-right: 15px;
-        margin-bottom: 15px;
-    }
+    .scroll-menu { padding-left: 12px; padding-right: 12px; margin-bottom: 15px; }
 
-    /* Tela Inicial: Notícias ocupam largura total separadas por linha sutil */
-    .news-grid {
-        gap: 0;
-    }
+    .news-grid { gap: 0; }
     .news-card {
-        border: none;
-        border-bottom: 1px solid #e5e7eb;
-        border-radius: 0;
-        padding: 20px 15px;
+        border: none; border-bottom: 1px solid #e5e7eb; border-radius: 0;
+        padding: 15px 12px; /* Margem justa para manchetes */
     }
 
-    /* Tela do Artigo: Sumir com o 'Box dentro de Box' e dar sangria total */
+    /* O RECINTO DO ARTIGO */
+    #post-container {
+        padding: 20px 12px; /* Apenas 12px de distância da borda do ecrã */
+    }
+
+    /* O TÍTULO DO ARTIGO (Protegido contra cortes) */
+    #post-title {
+        font-size: 1.8rem !important;
+        line-height: 1.4 !important; /* Altura generosa para não decepar as letras */
+        margin-bottom: 15px !important;
+        word-wrap: break-word; /* Força quebra se a palavra for gigante */
+        letter-spacing: normal !important;
+    }
+
+    /* O CORPO DO TEXTO (Fim do enclausuramento) */
     .post-content {
         border: none;
         border-radius: 0;
-        padding: 20px 15px; /* Mantém apenas o micro-recuo para o texto não colar no vidro */
-        font-size: 1.1rem;
+        padding: 10px 0 !important; /* Zera a margem lateral interna, aproveitando os 12px do container */
+        font-size: 1.15rem; /* Tamanho confortável para leitura fluída */
     }
     
-    .post-content h1 {
-        font-size: 1.8rem;
-    }
-
     .ia-module {
         border-top: 1px solid #e5e7eb;
-        padding: 20px 0;
+        border-left: none; border-right: none; border-bottom: none;
+        border-radius: 0;
+        padding: 25px 0 !important; /* IA aproveita a mesma largura total */
     }
 }
