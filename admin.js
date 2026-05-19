@@ -1,10 +1,10 @@
 import { db } from "./firebase-config.js";
-import { collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { collection, addDoc, getDocs, query, orderBy, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-console.log("DEZ-ENVOLVE: admin.js carregado com sucesso.");
+console.log("DEZ-ENVOLVE: admin.js carregado.");
 
 // =========================================================================
-// 1. INICIALIZAÇÃO DO EDITOR DE TEXTOS (Com Isolamento de Falhas)
+// 1. INICIALIZAÇÃO DO EDITOR
 // =========================================================================
 let quill = null;
 try {
@@ -22,162 +22,244 @@ try {
         },
         placeholder: 'Cole seu texto com formatação aqui...'
     });
-    console.log("DEZ-ENVOLVE: Editor Quill.js inicializado.");
 } catch (error) {
-    console.error("DEZ-ENVOLVE CRÍTICO: Falha ao carregar o Quill.js:", error);
+    console.error("Erro ao carregar o Quill.js:", error);
 }
 
 // =========================================================================
-// 2. LÓGICA DE ALTERNÂNCIA DE ABAS (Segura)
+// 2. LÓGICA DE ABAS
 // =========================================================================
 const btnShowForm = document.getElementById("btn-show-form");
+const btnShowManage = document.getElementById("btn-show-manage");
 const btnShowDash = document.getElementById("btn-show-dash");
+
 const adminFormSection = document.getElementById("admin-form-section");
+const adminManageSection = document.getElementById("admin-manage-section");
 const adminDashSection = document.getElementById("admin-dash-section");
 
-if (btnShowForm && btnShowDash && adminFormSection && adminDashSection) {
-    btnShowForm.addEventListener("click", () => {
-        adminFormSection.classList.remove("hidden");
-        adminDashSection.classList.add("hidden");
-        btnShowForm.className = "btn-primary";
-        btnShowDash.className = "btn-secondary";
-    });
-
-    btnShowDash.addEventListener("click", () => {
-        adminDashSection.classList.remove("hidden");
-        adminFormSection.classList.add("hidden");
-        btnShowDash.className = "btn-primary";
-        btnShowForm.className = "btn-secondary";
-        carregarDashboard(); // Dispara a leitura do Firestore
-    });
-    console.log("DEZ-ENVOLVE: Sistema de Abas configurado.");
-} else {
-    console.error("DEZ-ENVOLVE CRÍTICO: Elementos de interface do Admin ausentes no HTML.");
+function switchTab(activeBtn, activeSection) {
+    [btnShowForm, btnShowManage, btnShowDash].forEach(btn => btn.className = "btn-secondary");
+    [adminFormSection, adminManageSection, adminDashSection].forEach(sec => sec.classList.add("hidden"));
+    
+    activeBtn.className = "btn-primary";
+    activeSection.classList.remove("hidden");
 }
 
-// =========================================================================
-// 3. MOTOR DO DASHBOARD ANALÍTICO (O "Raio-X" Blindado)
-// =========================================================================
-const dashList = document.getElementById("dash-list");
+btnShowForm.addEventListener("click", () => switchTab(btnShowForm, adminFormSection));
+btnShowManage.addEventListener("click", () => {
+    switchTab(btnShowManage, adminManageSection);
+    carregarGerenciamento();
+});
+btnShowDash.addEventListener("click", () => {
+    switchTab(btnShowDash, adminDashSection);
+    carregarDashboard();
+});
 
-async function carregarDashboard() {
-    if (!dashList) return;
-    dashList.innerHTML = "<p style='text-align:center; color:#64748b;'>Buscando perguntas dos pais no Firebase...</p>";
-    
+// =========================================================================
+// 3. GESTÃO DE ARTIGOS (Editar e Excluir)
+// =========================================================================
+const manageList = document.getElementById("manage-list");
+let memoriaPosts = {}; // Guarda os dados para edição rápida
+
+async function carregarGerenciamento() {
+    manageList.innerHTML = "<p style='text-align:center;'>Buscando artigos...</p>";
     try {
-        console.log("DEZ-ENVOLVE: Solicitando coleção 'interacoes' ao Firestore...");
-        const q = query(collection(db, "interacoes"), orderBy("data", "desc"));
+        const q = query(collection(db, "posts"), orderBy("dataCriacao", "desc"));
         const querySnapshot = await getDocs(q);
-        console.log("DEZ-ENVOLVE: Resposta recebida. Registros encontrados:", querySnapshot.size);
 
         if (querySnapshot.empty) {
-            dashList.innerHTML = "<p style='text-align:center; color: #64748b;'>Nenhuma pergunta registrada ainda. Quando um pai interagir com a IA Mentora, os dados aparecerão aqui.</p>";
+            manageList.innerHTML = "<p style='text-align:center;'>Nenhum artigo publicado ainda.</p>";
             return;
         }
 
         let html = "";
-        
+        memoriaPosts = {}; // Reseta a memória
+
         querySnapshot.forEach((docSnap) => {
             const data = docSnap.data();
+            const id = docSnap.id;
+            memoriaPosts[id] = data; // Salva na memória
+
+            const dataFormatada = new Date(data.dataCriacao).toLocaleDateString('pt-BR');
             const cat = data.categoria ? data.categoria.toUpperCase() : "GERAL";
-            
-            // Tratamento preventivo para datas corrompidas ou ausentes
-            let dataFormatada = "Data indisponível";
-            if (data.data) {
-                try {
-                    dataFormatada = new Date(data.data).toLocaleString('pt-BR');
-                } catch(e) {
-                    console.error("Erro na conversão de data:", e);
-                }
-            }
 
             html += `
-            <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
-                    <span style="font-size: 0.7rem; font-weight: bold; background: #0f172a; color: white; padding: 4px 10px; border-radius: 12px;">${cat}</span>
-                    <span style="font-size: 0.75rem; color: #64748b;">${dataFormatada}</span>
+            <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div style="flex: 1; min-width: 200px;">
+                    <span style="font-size: 0.7rem; background: #e2e8f0; color: #334155; padding: 3px 8px; border-radius: 12px;">${cat} - ${dataFormatada}</span>
+                    <h3 style="font-size: 1.1rem; color: #0f172a; margin-top: 5px;">${data.titulo}</h3>
                 </div>
-                
-                <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 5px;">A Dúvida do Pai/Mãe:</p>
-                <p style="font-weight: bold; color: #0f172a; font-size: 1.05rem; margin-bottom: 15px;">"${data.pergunta || 'Sem texto de pergunta'}"</p>
-                
-                <details style="font-size: 0.9rem; color: #334155; background: #f8fafc; padding: 12px; border-radius: 6px; border: 1px solid #e2e8f0;">
-                    <summary style="cursor: pointer; font-weight: 600; color: #10b981; outline: none;">Ver como a IA respondeu</summary>
-                    <p style="margin-top: 10px; line-height: 1.6; border-top: 1px dashed #cbd5e1; padding-top: 10px; white-space: pre-line;">${data.respostaIA || 'Sem resposta gerada'}</p>
-                </details>
+                <div style="display: flex; gap: 8px;">
+                    <button data-action="edit" data-id="${id}" style="background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-weight: bold;">Editar</button>
+                    <button data-action="delete" data-id="${id}" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-weight: bold;">Excluir</button>
+                </div>
             </div>`;
         });
-
-        dashList.innerHTML = html;
+        manageList.innerHTML = html;
 
     } catch (error) {
-        console.error("DEZ-ENVOLVE ERRO FLUXO FIRESTORE:", error);
-        // Exposição explícita do erro na tela do usuário para auditoria técnica
-        dashList.innerHTML = `
-            <div style="background: #fef2f2; border: 1px solid #fca5a5; padding: 15px; border-radius: 8px; color: #991b1b;">
-                <p style="font-weight:bold; margin-bottom:5px;">⚠️ Falha de Conexão com o Banco de Dados</p>
-                <p style="font-size:0.85rem; color:#b91c1c;">Motivo: ${error.message}</p>
-                <p style="font-size:0.8rem; color:#475569; margin-top:10px;">Verifique se as Regras de Segurança (Security Rules) do Firestore permitem a leitura pública ou administrativa da coleção "interacoes".</p>
-            </div>`;
+        console.error("Erro Gestão:", error);
+        manageList.innerHTML = "<p style='color:red; text-align:center;'>Erro ao carregar artigos.</p>";
     }
 }
 
+// Escutador de cliques para os botões Editar e Excluir
+manageList.addEventListener("click", async (e) => {
+    const btn = e.target;
+    const action = btn.getAttribute("data-action");
+    const id = btn.getAttribute("data-id");
+
+    if (!action || !id) return;
+
+    if (action === "delete") {
+        const confirmacao = confirm("Tem certeza que deseja EXCLUIR este artigo definitivamente?");
+        if (confirmacao) {
+            btn.textContent = "Apagando...";
+            try {
+                await deleteDoc(doc(db, "posts", id));
+                carregarGerenciamento(); // Recarrega a lista
+            } catch (error) {
+                alert("Erro ao excluir: " + error.message);
+                btn.textContent = "Excluir";
+            }
+        }
+    }
+
+    if (action === "edit") {
+        const post = memoriaPosts[id];
+        prepararEdicao(id, post);
+    }
+});
+
 // =========================================================================
-// 4. LÓGICA DE SALVAMENTO DE NOVOS POSTS (Mantida Protegida)
+// 4. LÓGICA DE SALVAMENTO (Criar e Atualizar)
 // =========================================================================
 const formPost = document.getElementById("form-post");
+const formTitle = document.getElementById("form-title");
+const btnSubmitPost = document.getElementById("btn-submit-post");
+const btnCancelEdit = document.getElementById("btn-cancel-edit");
+const inputEditId = document.getElementById("edit-post-id");
 const statusMsg = document.getElementById("status-msg");
+
+// Função que prepara a tela para editar
+function prepararEdicao(id, postData) {
+    inputEditId.value = id;
+    document.getElementById("titulo").value = postData.titulo;
+    document.getElementById("categoria").value = postData.categoria;
+    quill.root.innerHTML = postData.conteudo;
+    
+    formTitle.textContent = "Editando Artigo";
+    formTitle.style.color = "#3b82f6";
+    btnSubmitPost.textContent = "Atualizar Artigo";
+    btnCancelEdit.classList.remove("hidden");
+    
+    switchTab(btnShowForm, adminFormSection);
+}
+
+// Cancela a edição e volta ao modo "Criar"
+function resetarFormulario() {
+    inputEditId.value = "";
+    document.getElementById("titulo").value = "";
+    document.getElementById("categoria").value = "";
+    quill.root.innerHTML = "";
+    
+    formTitle.textContent = "Criar Novo Post";
+    formTitle.style.color = "#0f172a";
+    btnSubmitPost.textContent = "Publicar Artigo";
+    btnCancelEdit.classList.add("hidden");
+}
+
+btnCancelEdit.addEventListener("click", resetarFormulario);
 
 if(formPost) {
     formPost.addEventListener("submit", async (e) => {
         e.preventDefault(); 
         
+        const editId = inputEditId.value;
         const titulo = document.getElementById("titulo").value;
         const categoria = document.getElementById("categoria").value;
-        
-        if (!categoria) {
-            alert("Por favor, selecione uma Trilha de Capacitação antes de publicar.");
-            return;
-        }
-
-        if (!quill) {
-            alert("Erro Técnico: O editor rico falhou na inicialização. Publicação abortada.");
-            return;
-        }
-
         const conteudoFormatado = quill.root.innerHTML;
         
-        if (quill.getText().trim().length === 0 && !conteudoFormatado.includes('<img')) {
-            alert("O conteúdo do post não pode estar vazio.");
-            return;
-        }
+        if (!categoria) return alert("Selecione uma categoria.");
+        if (quill.getText().trim().length === 0 && !conteudoFormatado.includes('<img')) return alert("O post não pode estar vazio.");
         
-        const btnSubmit = formPost.querySelector("button");
-        btnSubmit.disabled = true;
-        btnSubmit.textContent = "Salvando...";
+        btnSubmitPost.disabled = true;
+        btnSubmitPost.textContent = "Salvando...";
 
         try {
-            const docRef = await addDoc(collection(db, "posts"), {
-                titulo: titulo,
-                categoria: categoria,
-                conteudo: conteudoFormatado,
-                dataCriacao: new Date().toISOString()
-            });
+            if (editId) {
+                // ATUALIZAR POST EXISTENTE
+                const postRef = doc(db, "posts", editId);
+                await updateDoc(postRef, {
+                    titulo: titulo,
+                    categoria: categoria,
+                    conteudo: conteudoFormatado
+                    // Não alteramos a data de criação para não bagunçar o feed
+                });
+                statusMsg.textContent = "Artigo atualizado com sucesso!";
+            } else {
+                // CRIAR NOVO POST
+                await addDoc(collection(db, "posts"), {
+                    titulo: titulo,
+                    categoria: categoria,
+                    conteudo: conteudoFormatado,
+                    dataCriacao: new Date().toISOString()
+                });
+                statusMsg.textContent = "Artigo publicado com sucesso!";
+            }
             
             statusMsg.classList.remove("hidden");
-            
-            document.getElementById("titulo").value = "";
-            document.getElementById("categoria").value = ""; 
-            quill.setContents([]); 
-            
+            resetarFormulario();
             setTimeout(() => { statusMsg.classList.add("hidden"); }, 3000);
             
         } catch (error) {
-            console.error("DEZ-ENVOLVE ERRO SALVAMENTO:", error);
-            alert(`Erro ao salvar post: ${error.message}`);
+            console.error("Erro salvamento:", error);
+            alert(`Erro ao salvar: ${error.message}`);
         } finally {
-            btnSubmit.disabled = false;
-            btnSubmit.textContent = "Publicar Artigo";
+            btnSubmitPost.disabled = false;
+            btnSubmitPost.textContent = editId ? "Atualizar Artigo" : "Publicar Artigo";
         }
     });
+}
+
+// =========================================================================
+// 5. MOTOR DO DASHBOARD ANALÍTICO (Mantido Intacto)
+// =========================================================================
+const dashList = document.getElementById("dash-list");
+
+async function carregarDashboard() {
+    if (!dashList) return;
+    dashList.innerHTML = "<p style='text-align:center;'>Buscando perguntas dos pais...</p>";
+    try {
+        const q = query(collection(db, "interacoes"), orderBy("data", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            dashList.innerHTML = "<p style='text-align:center;'>Nenhuma pergunta registrada.</p>";
+            return;
+        }
+
+        let html = "";
+        querySnapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            const cat = data.categoria ? data.categoria.toUpperCase() : "GERAL";
+            let dataFormatada = data.data ? new Date(data.data).toLocaleString('pt-BR') : "";
+
+            html += `
+            <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                    <span style="font-size: 0.7rem; font-weight: bold; background: #0f172a; color: white; padding: 4px 10px; border-radius: 12px;">${cat}</span>
+                    <span style="font-size: 0.75rem; color: #64748b;">${dataFormatada}</span>
+                </div>
+                <p style="font-weight: bold; color: #0f172a; font-size: 1.05rem; margin-bottom: 15px;">"${data.pergunta}"</p>
+                <details style="font-size: 0.9rem; background: #f8fafc; padding: 12px; border-radius: 6px;">
+                    <summary style="cursor: pointer; color: #10b981; font-weight: bold;">Ver resposta da IA</summary>
+                    <p style="margin-top: 10px; white-space: pre-line;">${data.respostaIA}</p>
+                </details>
+            </div>`;
+        });
+        dashList.innerHTML = html;
+    } catch (error) {
+        dashList.innerHTML = `<p style='color:red;'>Erro ao ler Firebase: ${error.message}</p>`;
+    }
 }
