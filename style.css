@@ -1,102 +1,55 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;600&display=swap');
 
-/* --- RESET BASE --- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    background-color: #f3f4f6;
-    color: #1f2937;
-    font-family: 'Inter', -apple-system, sans-serif;
-    padding-bottom: 60px;
-}
-
-/* --- CABEÇALHO --- */
-.navbar {
     background-color: #ffffff;
-    border-bottom: 2px solid #000000;
-    padding: 10px 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    color: #1a1a1a;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.8;
+    padding-bottom: 80px;
 }
-.brand { font-weight: 800; font-size: 1.3rem; text-transform: uppercase; }
 
-/* --- ESTRUTURA GERAL --- */
+/* Layout Principal (focado na leitura) */
 .main-wrapper {
-    max-width: 1000px;
+    max-width: 720px; /* Largura ideal para leitura de revistas */
     margin: 0 auto;
-    padding: 10px;
+    padding: 40px 20px;
 }
 
-/* --- PORTAL DE NOTÍCIAS (Página Inicial) --- */
-.portal-header {
-    background: #ffffff;
-    border-left: 5px solid #2563eb;
-    padding: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+/* Tipografia Editorial */
+h1, h2, h3 { 
+    font-family: 'Merriweather', serif; 
+    color: #000000; 
+    margin-bottom: 1.5rem; 
 }
 
-.scroll-menu {
-    display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px;
-    margin-bottom: 15px; border-bottom: 2px solid #e5e7eb;
-}
-.filter-btn {
-    background: transparent; border: none; color: #6b7280; font-weight: 700;
-    font-size: 0.85rem; text-transform: uppercase; cursor: pointer; white-space: nowrap;
-}
-.filter-btn.active { color: #2563eb; border-bottom: 2px solid #2563eb; }
+h1 { font-size: 2.5rem; line-height: 1.2; }
 
-.news-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 15px;
+/* Botões e Interação Minimalistas */
+.btn-primary {
+    background: #000; color: #fff; padding: 12px 24px;
+    border: none; border-radius: 99px; cursor: pointer;
+    font-weight: 600; font-size: 0.9rem;
+}
+.btn-secondary {
+    background: #f0f0f0; color: #000; padding: 10px 20px;
+    border: none; border-radius: 99px; cursor: pointer;
+    font-weight: 600; font-size: 0.9rem;
 }
 
-.news-card {
-    background: #ffffff;
-    padding: 15px;
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-}
-.news-category { font-size: 0.7rem; font-weight: 800; color: #dc2626; text-transform: uppercase; }
-.news-title { font-size: 1.2rem; font-weight: 800; display: block; margin: 8px 0; }
+/* Cartões (Feed de notícias estilo Newsletter) */
+.news-grid { display: flex; flex-direction: column; gap: 40px; }
+.news-card { border-bottom: 1px solid #eee; padding-bottom: 20px; }
+.news-category { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+.news-title { font-size: 1.5rem; font-family: 'Merriweather', serif; margin: 10px 0; display: block; }
+.news-date { font-size: 0.85rem; color: #888; }
 
-/* --- ARTIGO (Página de leitura) --- */
-#post-title {
-    font-size: 1.75rem;
-    line-height: 1.3;
-    padding: 0 10px;
-    margin-bottom: 20px;
-    word-wrap: break-word;
-}
+/* Conteúdo do Post */
+.post-content { font-size: 1.2rem; line-height: 1.8; }
+.post-content img { width: 100%; border-radius: 8px; margin: 20px 0; }
 
-.post-content {
-    background: #ffffff;
-    padding: 20px 15px; /* Margem interna equilibrada */
-    font-size: 1.1rem;
-    line-height: 1.7;
-    border: 1px solid #e5e7eb;
-}
-
-.ia-module { 
-    background: #f9fafb; 
-    border: 1px solid #e5e7eb; 
-    padding: 15px; 
-    margin-top: 20px; 
-}
-
-/* --- BOTÕES --- */
-.btn-primary { background: #2563eb; color: white; border: none; padding: 10px; border-radius: 4px; font-weight: 700; cursor: pointer; }
-.btn-secondary { background: #f3f4f6; color: #111827; border: 1px solid #d1d5db; padding: 8px; border-radius: 4px; }
-
-/* --- AJUSTE MOBILE CRÍTICO --- */
 @media (max-width: 600px) {
-    .main-wrapper { padding: 5px; } /* Quase sem margem externa */
-    .post-content { 
-        padding: 15px 10px !important; /* Margem interna justa para texto */
-    }
+    h1 { font-size: 2rem; }
+    .main-wrapper { padding: 20px 15px; }
 }
