@@ -2,6 +2,47 @@ import { auth, provider, db } from "./firebase-config.js";
 import { signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
+// =========================================================================
+// 1. LÓGICA DO BANNER DE INSTALAÇÃO DO PWA (A Mini Janela)
+// =========================================================================
+let deferredPrompt;
+const installBanner = document.getElementById('install-banner');
+const btnInstall = document.getElementById('btn-install');
+const btnCloseInstall = document.getElementById('btn-close-install');
+
+// Escuta o evento do navegador que permite a instalação
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Impede o Chrome de mostrar o prompt nativo automático (que é confuso)
+    e.preventDefault();
+    // Guarda o evento para dispararmos depois
+    deferredPrompt = e;
+    // Mostra o nosso banner premium no topo da tela
+    if (installBanner) installBanner.classList.remove('hidden');
+});
+
+if (btnInstall) {
+    btnInstall.addEventListener('click', async () => {
+        // Esconde o banner
+        installBanner.classList.add('hidden');
+        if (deferredPrompt) {
+            // Mostra o prompt real de instalação do sistema operacional
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`Resultado da instalação: ${outcome}`);
+            deferredPrompt = null;
+        }
+    });
+}
+
+if (btnCloseInstall) {
+    btnCloseInstall.addEventListener('click', () => {
+        installBanner.classList.add('hidden');
+    });
+}
+
+// =========================================================================
+// 2. AUTENTICAÇÃO E NAVEGAÇÃO BÁSICA
+// =========================================================================
 const btnLogin = document.getElementById("btn-login");
 const btnLogout = document.getElementById("btn-logout");
 const loginSection = document.getElementById("login-section");
@@ -11,42 +52,29 @@ const feedPosts = document.getElementById("feed-posts");
 const categoryFilters = document.getElementById("category-filters"); 
 const userSectionNav = document.getElementById("user-section-nav");
 
-// Armazena todos os posts na memória do celular para filtro rápido
 let allPosts = []; 
 
-// Autenticação
 if(btnLogin) {
-    btnLogin.addEventListener("click", () => {
-        signInWithPopup(auth, provider).catch(console.error);
-    });
+    btnLogin.addEventListener("click", () => { signInWithPopup(auth, provider).catch(console.error); });
 }
 
 if(btnLogout) {
-    btnLogout.addEventListener("click", () => {
-        signOut(auth);
-    });
+    btnLogout.addEventListener("click", () => { signOut(auth); });
 }
 
-// Escutador de estado de Login CORRIGIDO
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        // Exibe o conteúdo e oculta a tela inicial
         if(loginSection) loginSection.classList.add("hidden");
         if(userSection) userSection.classList.remove("hidden");
         if(userNameSpan) userNameSpan.textContent = user.displayName;
-        
-        // Esconde o botão Entrar e exibe o menu Sair/Admin/Perfil
         if(btnLogin) btnLogin.classList.add("hidden");
         if(userSectionNav) {
             userSectionNav.classList.remove("hidden");
             userSectionNav.style.display = 'flex';
         }
     } else {
-        // Exibe tela inicial e oculta conteúdo
         if(loginSection) loginSection.classList.remove("hidden");
         if(userSection) userSection.classList.add("hidden");
-        
-        // Exibe o botão Entrar e oculta o menu Sair/Admin/Perfil
         if(btnLogin) btnLogin.classList.remove("hidden");
         if(userSectionNav) {
             userSectionNav.classList.add("hidden");
@@ -55,13 +83,15 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// Função para renderizar os cards na tela
+// =========================================================================
+// 3. FEED DE CONTEÚDO E FILTROS
+// =========================================================================
 function renderizarPosts(posts) {
     if(!feedPosts) return;
     feedPosts.innerHTML = ""; 
     
     if(posts.length === 0) {
-        feedPosts.innerHTML = "<p>Nenhum conteúdo encontrado para esta trilha no momento.</p>";
+        feedPosts.innerHTML = "<p style='color: #64748b;'>Nenhum conteúdo encontrado para esta trilha no momento.</p>";
         return;
     }
 
@@ -79,10 +109,8 @@ function renderizarPosts(posts) {
     });
 }
 
-// Carregar Posts do Feed
 async function carregarFeed() {
     if(!feedPosts) return;
-    
     try {
         const q = query(collection(db, "posts"), orderBy("dataCriacao", "desc"));
         const querySnapshot = await getDocs(q);
@@ -91,15 +119,12 @@ async function carregarFeed() {
         querySnapshot.forEach((doc) => {
             allPosts.push({ id: doc.id, post: doc.data() });
         });
-
         renderizarPosts(allPosts); 
     } catch (error) {
-        console.error("Erro ao carregar posts:", error);
         feedPosts.innerHTML = "<p>Erro ao carregar os conteúdos.</p>";
     }
 }
 
-// Lógica de Escuta dos Botões de Filtro
 if(categoryFilters) {
     categoryFilters.addEventListener("click", (e) => {
         if(e.target.tagName === "BUTTON") {
