@@ -3,87 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lendo Post...</title>
-    <link rel="stylesheet" href="style.css?v=4">
+    <title>Lendo Artigo...</title>
+    <link rel="stylesheet" href="style.css?v=12">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#ffffff">
     <script src="pwa.js" defer></script>
 </head>
 <body>
     <nav class="navbar">
         <a href="index.html" class="brand-container">
-            <img src="icons/icon-192.png" alt="Logo" class="nav-icon">
-            <span class="brand" style="font-size: 0.95rem;">← Voltar</span>
+            <span style="font-size: 1.2rem; font-weight: 800; color: #000;">← Voltar</span>
         </a>
     </nav>
 
     <div class="main-wrapper">
-        <div class="container" id="post-container">
-            <h1 id="post-title">Carregando...</h1>
+        <div id="post-container">
+            <h1 id="post-title" style="font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px;">Carregando...</h1>
             
-            <div class="share-actions hidden" id="share-container">
-                <button id="btn-share-native" class="btn-outline">
+            <div class="share-actions hidden" id="share-container" style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #e5e7eb; padding-bottom: 15px;">
+                <button id="btn-share-native" class="btn-secondary" style="display: flex; align-items: center; gap: 5px;">
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
                     Compartilhar
                 </button>
-                <button id="btn-share-wa" class="btn-whatsapp">
+                <button id="btn-share-wa" class="btn-primary" style="background-color: #25D366; display: flex; align-items: center; gap: 5px;">
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 21.033c-1.638 0-3.239-.426-4.664-1.233l-.334-.188-3.468.91.926-3.38-.207-.328C3.435 15.421 3 13.754 3 12.033 3 7.054 7.042 3 12.031 3c2.418 0 4.693.943 6.402 2.656C20.141 7.369 21.085 9.646 21.085 12.033c0 4.979-4.043 9-9.054 9zm-5.045-3.364l1.353.79c1.137.666 2.428 1.018 3.737 1.018 4.12 0 7.472-3.354 7.472-7.475 0-1.998-.778-3.876-2.191-5.289C15.945 5.299 14.067 4.52 12.031 4.52c-4.12 0-7.47 3.354-7.47 7.475 0 1.33.362 2.639 1.047 3.791l.865 1.455-1.127 4.116 4.225-1.11zM16.94 14.99c-.266-.134-1.583-.782-1.828-.872-.244-.09-.423-.134-.6.134-.178.268-.691.872-.846 1.05-.155.179-.31.202-.576.068-2.037-.996-3.21-1.96-4.502-4.184-.155-.268.151-.26.417-.79.088-.178.044-.334-.022-.468-.066-.134-.6-.1.447-.822-1.96-.222-.511-.466-.69-.466-.868 0-.355.022-.688.022-.955.022-1.22.688-1.864 1.67-1.864s2.614.966 3.125 1.705c.51.738.51 1.942.51 2.389s.133 1.05.355 1.295c.222.245.888 1.026 2.152 1.54 1.265.514 1.265.336 1.51.313.244-.023.782-.319.893-.628.111-.31.111-.575.077-.63-.033-.056-.122-.09-.388-.224z"/></svg>
-                        WhatsApp
-                    </button>
-                </div>
+                    WhatsApp
+                </button>
+            </div>
 
-                <div id="post-body" class="post-content">Buscando conteúdo no servidor...</div>
-                
-                <input type="hidden" id="post-category-tracker" value="">
+            <div id="post-body" class="post-content">Buscando conteúdo no servidor...</div>
+            
+            <input type="hidden" id="post-category-tracker" value="">
 
-                <div class="native-ad-module" style="background: linear-gradient(135deg, #1e293b, #0f172a); color: white; border-radius: 12px; padding: 25px; margin-bottom: 30px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border: 1px solid #334155;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <span style="font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; color: #10b981; text-transform: uppercase;">Apoio / Patrocinado</span>
-                        <span style="font-size: 1.2rem;">🚀</span>
-                    </div>
-                    <h3 style="font-size: 1.3rem; margin-bottom: 10px; color: white;">A base que a escola não constrói, nós resolvemos.</h3>
-                    <p style="font-size: 0.95rem; color: #cbd5e1; margin-bottom: 20px; line-height: 1.5;">O seu filho tem potencial, mas está travado em Matemática ou precisando de direcionamento nos estudos? Conheça o acompanhamento estratégico do <strong>PLH Preparatórios</strong>.</p>
-                    <a href="https://api.whatsapp.com/send?phone=5533999333644&text=Ol%C3%A1,%20Professor%20Luiz!%20Vim%20pelo%20aplicativo%20Dez-envolve%20e%20gostaria%20de%20saber%20mais%20sobre%20o%20refor%C3%A7o%20e%20os%20cursos." target="_blank" class="btn-primary" style="background-color: #10b981; color: #0f172a; text-decoration: none; display: block; width: 100%; text-align: center; padding: 14px; border-radius: 8px; font-weight: 800; font-size: 1rem; transition: background-color 0.3s ease;">
-                        Falar com o Professor Luiz no WhatsApp
-                    </a>
+            <div class="native-ad-module" style="background: #111827; color: white; padding: 25px; margin-top: 30px; border-left: 4px solid #3b82f6;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 1px; color: #3b82f6; text-transform: uppercase;">Acompanhamento Estratégico</span>
                 </div>
-                </div>
+                <h3 style="font-size: 1.4rem; margin-bottom: 10px; color: white;">A base que a escola não constrói, nós resolvemos.</h3>
+                <p style="font-size: 1rem; color: #d1d5db; margin-bottom: 20px; line-height: 1.5;">O seu filho tem potencial, mas está travado em Matemática ou precisando de direcionamento nos estudos? Conheça o <strong>PLH Preparatórios</strong>.</p>
+                <a href="https://api.whatsapp.com/send?phone=5533999333644&text=Ol%C3%A1,%20Professor%20Luiz!%20Vim%20pelo%20Portal%20Dez-envolve%20e%20gostaria%20de%20saber%20mais%20sobre%20o%20refor%C3%A7o." target="_blank" class="btn-primary" style="background-color: #2563eb; color: white; text-decoration: none; display: block; width: 100%; text-align: center; padding: 14px; border-radius: 4px; font-weight: 800; font-size: 1rem;">
+                    Falar com o Professor Luiz
+                </a>
+            </div>
             
             <div class="ia-section ia-module">
                 <div id="login-prompt" class="text-center">
-                    <h3>Faça login para interagir</h3>
-                    <p style="color: #64748b; margin-bottom: 15px; font-size: 0.9rem;">Você precisa estar conectado para conversar com a IA Mentora.</p>
-                    <a href="index.html" class="btn-primary" style="padding: 8px 16px;">Ir para Login</a>
+                    <h3 style="margin-bottom: 10px;">Acesso à IA Mentora</h3>
+                    <p style="color: #6b7280; margin-bottom: 15px;">Faça login para debater este artigo com a Inteligência Artificial.</p>
+                    <a href="index.html" class="btn-primary" style="padding: 8px 20px; display: inline-block;">Fazer Login</a>
                 </div>
                 
                 <div id="ia-tools" class="hidden">
-                    <div class="text-center" style="margin-bottom: 25px;">
-                        <h3>Avalie este conteúdo</h3>
-                        <div class="stars-container" id="stars-container" style="display: flex; justify-content: center; gap: 5px; font-size: 1.5rem; cursor: pointer; color: #cbd5e1;">
+                    <div style="margin-bottom: 30px;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 10px;">Avalie o Artigo</h3>
+                        <div class="stars-container" id="stars-container" style="display: flex; gap: 8px; font-size: 1.8rem; cursor: pointer; color: #d1d5db;">
                             <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
                         </div>
-                        <p id="rating-msg" class="hidden" style="color: #10b981; font-weight: 600; font-size: 0.85rem;">Obrigado pelo feedback!</p>
+                        <p id="rating-msg" class="hidden" style="color: #2563eb; font-weight: 700; font-size: 0.9rem; margin-top: 5px;">Opinião registada!</p>
                     </div>
-                    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 0 0 25px 0;">
+                    
                     <div>
-                        <h3 style="display: flex; align-items: center; gap: 8px;"><span style="font-size: 1.3rem;">✨</span> Pergunte à IA</h3>
-                        <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 12px;">Ficou com dúvida? Eu analiso este texto e respondo para você.</p>
-                        <textarea id="ia-question" placeholder="Ex: Como posso aplicar esta rotina com meu filho de 14 anos?"></textarea>
-                        <button id="btn-ask-ia" class="btn-primary" style="width: 100%;">Enviar Pergunta para IA</button>
-                        <div id="ia-loading" class="hidden ia-loading-text" style="text-align: center; margin-top: 10px; color: #64748b;"><span>Processando insights...</span></div>
+                        <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Pergunte à IA</h3>
+                        <p style="font-size: 0.9rem; color: #6b7280; margin-bottom: 15px;">Ficou com dúvida? Escreva abaixo e a IA vai analisar este texto para lhe responder.</p>
+                        <textarea id="ia-question" placeholder="Ex: Como aplico isto no dia a dia?"></textarea>
+                        <button id="btn-ask-ia" class="btn-primary" style="width: 100%;">Perguntar</button>
+                        
+                        <div id="ia-loading" class="hidden" style="text-align: center; margin-top: 15px; color: #6b7280; font-weight: 600;">Processando a resposta...</div>
+                        
                         <div id="ia-response-container" class="hidden">
-                            <div class="ia-response ia-response-box" id="ia-response-text"></div>
-                            <div class="ia-feedback-area" style="margin-top: 15px; text-align: right;">
-                                <span style="font-size: 0.8rem; color: #64748b; margin-right: 10px;">Essa resposta te ajudou?</span>
-                                <button id="btn-ia-good" class="btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;">👍 Sim</button>
-                                <button id="btn-ia-bad" class="btn-secondary" style="padding: 5px 10px; font-size: 0.8rem;">👎 Não</button>
-                                <span id="feedback-msg" class="hidden" style="color: #10b981; font-size: 0.8rem; font-weight: bold; margin-left: 10px;">Salvo!</span>
+                            <div class="ia-response-box" id="ia-response-text" style="font-size: 1rem; line-height: 1.6;"></div>
+                            
+                            <div style="margin-top: 15px; display: flex; justify-content: flex-end; align-items: center; gap: 10px;">
+                                <span style="font-size: 0.85rem; color: #6b7280;">A resposta foi útil?</span>
+                                <button id="btn-ia-good" class="btn-secondary" style="padding: 4px 10px; font-size: 0.85rem;">👍</button>
+                                <button id="btn-ia-bad" class="btn-secondary" style="padding: 4px 10px; font-size: 0.85rem;">👎</button>
+                                <span id="feedback-msg" class="hidden" style="color: #2563eb; font-size: 0.85rem; font-weight: 700;">Salvo!</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
-        <script type="module" src="post.js"></script>
-    </body>
+    </div>
+    <script type="module" src="post.js"></script>
+</body>
 </html>
