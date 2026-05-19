@@ -1,26 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
 
 /* ==========================================================================
-   RESET E BASE (A Fundação)
+   RESET E BASE (Padrão Portal de Notícias)
    ========================================================================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    background-color: #f8fafc;
-    color: #334155;
-    line-height: 1.7;
-    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6; /* Cinza bem claro, padrão de portais */
+    color: #1f2937;
+    line-height: 1.6;
+    font-family: 'Inter', -apple-system, sans-serif;
     padding-bottom: 60px;
     -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: 'Playfair Display', serif;
-    color: #0f172a;
+    font-weight: 800;
+    color: #111827;
+    letter-spacing: -0.02em;
 }
 
 a { text-decoration: none; color: inherit; }
@@ -31,33 +28,26 @@ a { text-decoration: none; color: inherit; }
    ========================================================================== */
 .install-banner {
     position: fixed; top: 0; left: 0; width: 100%;
-    background-color: #0f172a; color: white;
-    padding: 12px 20px; display: flex; justify-content: space-between;
+    background-color: #111827; color: white;
+    padding: 10px 15px; display: flex; justify-content: space-between;
     align-items: center; z-index: 1000;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.2);
-    animation: slideDown 0.5s ease-out forwards;
+    animation: slideDown 0.4s ease-out forwards;
 }
-
-@keyframes slideDown {
-    from { transform: translateY(-100%); }
-    to { transform: translateY(0); }
-}
-
-.install-banner-content { display: flex; align-items: center; gap: 12px; }
-.install-banner-icon { width: 40px; height: 40px; border-radius: 8px; }
-.install-banner-text { font-size: 0.9rem; line-height: 1.3; font-family: 'Inter', sans-serif;}
-.install-banner-text strong { display: block; color: #10b981; }
-.install-banner-actions { display: flex; gap: 10px; align-items: center; }
-.btn-install { background-color: #10b981; color: #0f172a; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-.btn-close-banner { background: transparent; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; }
+@keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+.install-banner-content { display: flex; align-items: center; gap: 10px; }
+.install-banner-icon { width: 36px; height: 36px; border-radius: 6px; }
+.install-banner-text { font-size: 0.85rem; line-height: 1.2; }
+.install-banner-text strong { display: block; color: #3b82f6; }
+.btn-install { background-color: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 700; cursor: pointer; }
+.btn-close-banner { background: transparent; border: none; color: #9ca3af; font-size: 1.5rem; cursor: pointer; }
 
 /* ==========================================================================
-   NAVEGAÇÃO (O Topo Editorial)
+   CABECALHO (Header do Portal)
    ========================================================================== */
 .navbar {
     background-color: #ffffff;
-    border-bottom: 1px solid #e2e8f0;
-    padding: 15px 20px;
+    border-bottom: 2px solid #000000;
+    padding: 12px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -66,91 +56,113 @@ a { text-decoration: none; color: inherit; }
     z-index: 100;
 }
 
-.brand-container { display: flex; align-items: center; gap: 12px; }
-.nav-icon { width: 35px; height: 35px; border-radius: 8px; }
+.brand-container { display: flex; align-items: center; gap: 10px; }
+.nav-icon { width: 32px; height: 32px; border-radius: 4px; }
 .brand {
-    font-weight: 900;
-    font-size: 1.4rem;
-    letter-spacing: 0.5px;
-    color: #0f172a;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -1px;
+    text-transform: uppercase;
+    color: #000000;
 }
 
 /* ==========================================================================
    ESTRUTURA PRINCIPAL
    ========================================================================== */
 .main-wrapper {
-    max-width: 800px;
+    max-width: 1000px; /* Mais largo para caber o grid de notícias */
     margin: 0 auto;
-    padding: 30px 20px;
+    padding: 20px 15px;
 }
 
 /* ==========================================================================
    BOTÕES GERAIS E FORMS
    ========================================================================== */
 .btn-primary {
-    background-color: #0f172a; color: white; border: none; padding: 12px 24px;
-    border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer;
-    transition: all 0.3s ease; text-align: center; font-family: 'Inter', sans-serif;
+    background-color: #2563eb; color: white; border: none; padding: 10px 20px;
+    border-radius: 4px; font-weight: 700; cursor: pointer; transition: 0.2s;
 }
-.btn-primary:hover { background-color: #1e293b; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-.btn-primary:active { transform: scale(0.98); }
-
+.btn-primary:hover { background-color: #1d4ed8; }
 .btn-secondary {
-    background-color: transparent; color: #0f172a; border: 1px solid #cbd5e1;
-    padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer;
-    transition: all 0.2s ease; font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6; color: #111827; border: 1px solid #d1d5db;
+    padding: 8px 16px; border-radius: 4px; font-weight: 600; cursor: pointer;
 }
-.btn-secondary:hover { background-color: #f8fafc; border-color: #94a3b8; }
 
 input[type="text"], select, textarea {
-    width: 100%; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 6px;
-    font-size: 1rem; margin-bottom: 20px; background-color: white; font-family: 'Inter', sans-serif;
+    width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px;
+    font-size: 1rem; margin-bottom: 15px; font-family: inherit;
 }
 
 /* ==========================================================================
-   SEÇÃO DE BOAS VINDAS (Hero Section)
+   LOGIN / HEADER DE SEÇÃO
    ========================================================================== */
-.login-section {
-    text-align: center; padding: 50px 20px; background: white;
-    border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
-    margin-bottom: 40px; border: 1px solid #e2e8f0;
+.portal-header {
+    background: #ffffff;
+    border-left: 5px solid #2563eb;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
-.login-section h2 { font-size: 2.2rem; margin-bottom: 15px; }
+.portal-header h2 { font-size: 1.5rem; text-transform: uppercase; margin-bottom: 5px; }
 
 /* ==========================================================================
-   FEED DE CONTEÚDO (Os Cartões de Artigo)
+   MENU DE FILTROS (Filtro de Editorias)
    ========================================================================== */
-.post-card {
-    background: white; border-radius: 8px; padding: 30px; margin-bottom: 25px;
-    border-top: 4px solid #0f172a; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.scroll-menu {
+    display: flex; overflow-x: auto; gap: 8px; padding-bottom: 15px; margin-bottom: 20px;
+    scrollbar-width: thin; border-bottom: 2px solid #e5e7eb;
 }
-.post-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-.post-card a {
-    font-size: 1.6rem; font-family: 'Playfair Display', serif; font-weight: 700;
-    color: #0f172a; margin-bottom: 12px; display: block; line-height: 1.3;
+.filter-btn {
+    background: transparent; border: none; color: #6b7280; font-weight: 700;
+    font-size: 0.9rem; text-transform: uppercase; cursor: pointer; white-space: nowrap;
+    padding: 5px 0; border-bottom: 3px solid transparent; transition: 0.2s;
 }
-.post-card .meta {
-    font-size: 0.85rem; color: #64748b; margin-top: 15px; font-weight: 500;
-    display: flex; justify-content: space-between; align-items: center;
+.filter-btn:hover { color: #111827; }
+.filter-btn.active { color: #2563eb; border-bottom-color: #2563eb; }
+
+/* ==========================================================================
+   GRID DE NOTÍCIAS (As Manchetes)
+   ========================================================================== */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.news-card {
+    background: #ffffff;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s;
+}
+.news-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+.news-category {
+    font-size: 0.75rem; font-weight: 800; color: #dc2626; /* Vermelho portal */
+    text-transform: uppercase; margin-bottom: 8px; display: inline-block;
+}
+
+.news-title {
+    font-size: 1.3rem; font-weight: 800; color: #111827; line-height: 1.25;
+    margin-bottom: 12px; text-decoration: none; flex-grow: 1;
+}
+.news-title:hover { color: #2563eb; }
+
+.news-date {
+    font-size: 0.8rem; color: #6b7280; font-weight: 500;
+    border-top: 1px solid #f3f4f6; padding-top: 10px; margin-top: auto;
 }
 
 /* ==========================================================================
-   PÁGINA DO ARTIGO & IA
+   PÁGINA DE LEITURA (O Artigo)
    ========================================================================== */
 .post-content {
-    background: white; padding: 40px 30px; border-radius: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 30px; font-size: 1.1rem;
+    background: #ffffff; padding: 30px 20px; border: 1px solid #e5e7eb;
+    font-size: 1.1rem; line-height: 1.8; color: #374151;
 }
-.post-content h1 { font-size: 2.5rem; margin-bottom: 20px; line-height: 1.2; }
-.post-content img { max-width: 100%; height: auto; border-radius: 6px; margin: 25px 0; }
-
-.ia-module {
-    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
-    padding: 30px; margin-top: 40px;
-}
-.ia-module h3 { font-size: 1.5rem; margin-bottom: 10px; }
-.ia-response-box {
-    background-color: white; border-left: 4px solid #10b981; padding: 20px;
-    border-radius: 0 8px 8px 0; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
+.post-content h1 { font-size: 2.2rem; margin-bottom: 15px; line-height: 1.1; }
+.post-content img { max-width: 100%; height: auto; margin: 20px 0; }
+.ia-module { background: #f9fafb; border: 1px solid #e5e7eb; padding: 25px; margin-top: 40px; border-radius: 4px; }
