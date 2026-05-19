@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
 
 /* ==========================================================================
-   RESET E BASE (Padrão Portal de Notícias)
+   RESET E BASE
    ========================================================================== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -9,217 +9,95 @@ body {
     background-color: #f3f4f6;
     color: #1f2937;
     line-height: 1.6;
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: 'Inter', sans-serif;
     padding-bottom: 60px;
     -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5 {
-    font-weight: 800;
-    color: #111827;
-    letter-spacing: -0.02em;
-}
-
+h1, h2, h3 { font-weight: 800; color: #111827; letter-spacing: -0.02em; }
 a { text-decoration: none; color: inherit; }
 .hidden { display: none !important; }
 
 /* ==========================================================================
-   BANNER DE INSTALAÇÃO (PWA)
-   ========================================================================== */
-.install-banner {
-    position: fixed; top: 0; left: 0; width: 100%;
-    background-color: #111827; color: white;
-    padding: 10px 15px; display: flex; justify-content: space-between;
-    align-items: center; z-index: 1000;
-    animation: slideDown 0.4s ease-out forwards;
-}
-@keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
-.install-banner-content { display: flex; align-items: center; gap: 10px; }
-.install-banner-icon { width: 36px; height: 36px; border-radius: 6px; }
-.install-banner-text { font-size: 0.85rem; line-height: 1.2; }
-.install-banner-text strong { display: block; color: #3b82f6; }
-.btn-install { background-color: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 700; cursor: pointer; }
-.btn-close-banner { background: transparent; border: none; color: #9ca3af; font-size: 1.5rem; cursor: pointer; }
-
-/* ==========================================================================
-   CABECALHO (Header do Portal)
-   ========================================================================== */
-.navbar {
-    background-color: #ffffff;
-    border-bottom: 2px solid #000000;
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.brand-container { display: flex; align-items: center; gap: 10px; }
-.nav-icon { width: 32px; height: 32px; border-radius: 4px; }
-.brand {
-    font-weight: 800;
-    font-size: 1.5rem;
-    letter-spacing: -1px;
-    text-transform: uppercase;
-    color: #000000;
-}
-
-/* ==========================================================================
-   ESTRUTURA PRINCIPAL (Desktop)
+   ESTRUTURA PRINCIPAL
    ========================================================================== */
 .main-wrapper {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 20px 15px;
+    padding: 20px 15px; /* Margem de segurança de 15px lateral */
 }
 
 /* ==========================================================================
-   BOTÕES GERAIS E FORMS
+   TELA DE LEITURA (Página do Post)
    ========================================================================== */
-.btn-primary {
-    background-color: #2563eb; color: white; border: none; padding: 10px 20px;
-    border-radius: 4px; font-weight: 700; cursor: pointer; transition: 0.2s;
-}
-.btn-primary:hover { background-color: #1d4ed8; }
-.btn-secondary {
-    background-color: #f3f4f6; color: #111827; border: 1px solid #d1d5db;
-    padding: 8px 16px; border-radius: 4px; font-weight: 600; cursor: pointer;
+#post-container {
+    padding: 0; 
 }
 
-input[type="text"], select, textarea {
-    width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px;
-    font-size: 1rem; margin-bottom: 15px; font-family: inherit;
+#post-title {
+    font-size: 1.75rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 20px !important;
+    padding: 0 15px; /* Proteção lateral para o título não sumir */
+    word-wrap: break-word;
 }
 
-/* ==========================================================================
-   LOGIN / HEADER DE SEÇÃO
-   ========================================================================== */
-.portal-header {
-    background: #ffffff;
-    border-left: 5px solid #2563eb;
-    padding: 20px;
-    margin-bottom: 25px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-.portal-header h2 { font-size: 1.5rem; text-transform: uppercase; margin-bottom: 5px; }
-
-/* ==========================================================================
-   MENU DE FILTROS (Filtro de Editorias)
-   ========================================================================== */
-.scroll-menu {
-    display: flex; overflow-x: auto; gap: 8px; padding-bottom: 15px; margin-bottom: 20px;
-    scrollbar-width: thin; border-bottom: 2px solid #e5e7eb;
-}
-.filter-btn {
-    background: transparent; border: none; color: #6b7280; font-weight: 700;
-    font-size: 0.9rem; text-transform: uppercase; cursor: pointer; white-space: nowrap;
-    padding: 5px 0; border-bottom: 3px solid transparent; transition: 0.2s;
-}
-.filter-btn:hover { color: #111827; }
-.filter-btn.active { color: #2563eb; border-bottom-color: #2563eb; }
-
-/* ==========================================================================
-   GRID DE NOTÍCIAS (As Manchetes)
-   ========================================================================== */
-.news-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.news-card {
-    background: #ffffff;
-    padding: 20px;
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    transition: box-shadow 0.2s;
-}
-.news-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-
-.news-category {
-    font-size: 0.75rem; font-weight: 800; color: #dc2626;
-    text-transform: uppercase; margin-bottom: 8px; display: inline-block;
-}
-
-.news-title {
-    font-size: 1.3rem; font-weight: 800; color: #111827; line-height: 1.25;
-    margin-bottom: 12px; text-decoration: none; flex-grow: 1;
-}
-.news-title:hover { color: #2563eb; }
-
-.news-date {
-    font-size: 0.8rem; color: #6b7280; font-weight: 500;
-    border-top: 1px solid #f3f4f6; padding-top: 10px; margin-top: auto;
-}
-
-/* ==========================================================================
-   PÁGINA DE LEITURA (O Artigo Base)
-   ========================================================================== */
 .post-content {
-    background: #ffffff; padding: 30px 20px; border: 1px solid #e5e7eb;
-    font-size: 1.1rem; line-height: 1.8; color: #374151;
+    background: #ffffff;
+    /* Reduzi o padding interno para 15px para ganhar espaço horizontal */
+    padding: 20px 15px !important; 
+    border: 1px solid #e5e7eb;
+    border-radius: 0;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #374151;
 }
-.post-content h1 { font-size: 2.2rem; margin-bottom: 15px; line-height: 1.2; }
-.post-content img { max-width: 100%; height: auto; margin: 20px 0; border-radius: 4px;}
-.ia-module { background: #f9fafb; border: 1px solid #e5e7eb; padding: 25px; margin-top: 40px; border-radius: 4px; }
-.ia-response-box { background-color: #ffffff; border-left: 4px solid #2563eb; padding: 20px; margin-top: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+
+.post-content img { 
+    max-width: 100%; 
+    height: auto; 
+    margin: 15px 0; 
+    border-radius: 4px;
+}
 
 /* ==========================================================================
-   MÍDIA QUERY: RESOLUÇÃO DA LEITURA MOBILE (Fim do Efeito Boneca Russa)
+   MÓDULO IA (Compactado)
+   ========================================================================== */
+.ia-module { 
+    background: #f9fafb; 
+    border: 1px solid #e5e7eb; 
+    padding: 15px !important; /* Mais justo */
+    margin-top: 30px; 
+}
+
+.ia-response-box {
+    background-color: #ffffff; 
+    border-left: 4px solid #2563eb; 
+    padding: 15px; 
+    margin-top: 15px;
+}
+
+/* ==========================================================================
+   MÍDIA QUERY: MOBILE OTIMIZADO
    ========================================================================== */
 @media (max-width: 768px) {
     body { background-color: #ffffff; }
     
-    .main-wrapper { 
-        padding: 0; /* Remove a margem externa inútil */
+    .main-wrapper {
+        padding: 0; /* Zera para o container controlar */
     }
 
-    .portal-header {
-        border-left: none;
-        border-bottom: 4px solid #2563eb;
-        box-shadow: none;
-        padding: 15px 12px; /* Margem justa lateral */
-        margin-bottom: 10px;
-    }
-
-    .scroll-menu { padding-left: 12px; padding-right: 12px; margin-bottom: 15px; }
-
-    .news-grid { gap: 0; }
-    .news-card {
-        border: none; border-bottom: 1px solid #e5e7eb; border-radius: 0;
-        padding: 15px 12px; /* Margem justa para manchetes */
-    }
-
-    /* O RECINTO DO ARTIGO */
     #post-container {
-        padding: 20px 12px; /* Apenas 12px de distância da borda do ecrã */
+        padding: 15px 0; /* Margem de 15px apenas no topo/baixo */
     }
 
-    /* O TÍTULO DO ARTIGO (Protegido contra cortes) */
     #post-title {
-        font-size: 1.8rem !important;
-        line-height: 1.4 !important; /* Altura generosa para não decepar as letras */
-        margin-bottom: 15px !important;
-        word-wrap: break-word; /* Força quebra se a palavra for gigante */
-        letter-spacing: normal !important;
+        padding: 0 15px; /* Margem lateral fixa para o título */
     }
 
-    /* O CORPO DO TEXTO (Fim do enclausuramento) */
     .post-content {
-        border: none;
-        border-radius: 0;
-        padding: 10px 0 !important; /* Zera a margem lateral interna, aproveitando os 12px do container */
-        font-size: 1.15rem; /* Tamanho confortável para leitura fluída */
-    }
-    
-    .ia-module {
-        border-top: 1px solid #e5e7eb;
-        border-left: none; border-right: none; border-bottom: none;
-        border-radius: 0;
-        padding: 25px 0 !important; /* IA aproveita a mesma largura total */
+        border-left: none;
+        border-right: none;
+        padding: 15px 15px !important; /* Ajuste fino: 15px de margem lateral interna */
     }
 }
