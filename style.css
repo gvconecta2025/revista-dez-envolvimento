@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
 
+/* --- RESET BASE --- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -9,65 +10,7 @@ body {
     padding-bottom: 60px;
 }
 
-/* ==========================================================================
-   ESTRUTURA DE TELA (Otimização Mobile)
-   ========================================================================== */
-.main-wrapper {
-    max-width: 1000px;
-    margin: 0 auto;
-    /* Reduzi drasticamente o padding lateral para ganhar espaço no celular */
-    padding: 10px 5px; 
-}
-
-/* ==========================================================================
-   TÍTULOS E TEXTOS (Proteção contra corte de letras)
-   ========================================================================== */
-#post-title {
-    font-size: 1.6rem !important;
-    line-height: 1.3 !important;
-    margin-bottom: 20px !important;
-    /* Margem interna justa, mas que garante que letras não sumam */
-    padding: 0 10px; 
-    word-wrap: break-word;
-    font-weight: 800;
-}
-
-.post-content {
-    background: #ffffff;
-    /* Otimização: Apenas 10px de padding interno é o suficiente para o texto não colar no vidro */
-    padding: 15px 10px !important; 
-    border: 1px solid #e5e7eb;
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: #374151;
-}
-
-.post-content img { 
-    max-width: 100%; 
-    height: auto; 
-    margin: 15px 0; 
-}
-
-/* ==========================================================================
-   LAYOUT DE PORTAL (Grid de Notícias)
-   ========================================================================== */
-.news-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 15px;
-    padding: 0 5px;
-}
-
-.news-card {
-    background: #ffffff;
-    padding: 15px;
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-}
-
-/* ==========================================================================
-   CABECALHO
-   ========================================================================== */
+/* --- CABEÇALHO --- */
 .navbar {
     background-color: #ffffff;
     border-bottom: 2px solid #000000;
@@ -79,10 +22,81 @@ body {
     top: 0;
     z-index: 100;
 }
+.brand { font-weight: 800; font-size: 1.3rem; text-transform: uppercase; }
 
-/* Ajustes finos para Mobile */
+/* --- ESTRUTURA GERAL --- */
+.main-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+/* --- PORTAL DE NOTÍCIAS (Página Inicial) --- */
+.portal-header {
+    background: #ffffff;
+    border-left: 5px solid #2563eb;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.scroll-menu {
+    display: flex; overflow-x: auto; gap: 10px; padding-bottom: 10px;
+    margin-bottom: 15px; border-bottom: 2px solid #e5e7eb;
+}
+.filter-btn {
+    background: transparent; border: none; color: #6b7280; font-weight: 700;
+    font-size: 0.85rem; text-transform: uppercase; cursor: pointer; white-space: nowrap;
+}
+.filter-btn.active { color: #2563eb; border-bottom: 2px solid #2563eb; }
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+.news-card {
+    background: #ffffff;
+    padding: 15px;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+}
+.news-category { font-size: 0.7rem; font-weight: 800; color: #dc2626; text-transform: uppercase; }
+.news-title { font-size: 1.2rem; font-weight: 800; display: block; margin: 8px 0; }
+
+/* --- ARTIGO (Página de leitura) --- */
+#post-title {
+    font-size: 1.75rem;
+    line-height: 1.3;
+    padding: 0 10px;
+    margin-bottom: 20px;
+    word-wrap: break-word;
+}
+
+.post-content {
+    background: #ffffff;
+    padding: 20px 15px; /* Margem interna equilibrada */
+    font-size: 1.1rem;
+    line-height: 1.7;
+    border: 1px solid #e5e7eb;
+}
+
+.ia-module { 
+    background: #f9fafb; 
+    border: 1px solid #e5e7eb; 
+    padding: 15px; 
+    margin-top: 20px; 
+}
+
+/* --- BOTÕES --- */
+.btn-primary { background: #2563eb; color: white; border: none; padding: 10px; border-radius: 4px; font-weight: 700; cursor: pointer; }
+.btn-secondary { background: #f3f4f6; color: #111827; border: 1px solid #d1d5db; padding: 8px; border-radius: 4px; }
+
+/* --- AJUSTE MOBILE CRÍTICO --- */
 @media (max-width: 600px) {
-    #post-title { font-size: 1.5rem !important; }
-    .post-content { font-size: 1.05rem; }
-    .navbar .brand { font-size: 1.2rem; }
+    .main-wrapper { padding: 5px; } /* Quase sem margem externa */
+    .post-content { 
+        padding: 15px 10px !important; /* Margem interna justa para texto */
+    }
 }
