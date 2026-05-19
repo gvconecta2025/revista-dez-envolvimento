@@ -4,12 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEZ-ENVOLVE - O Terceiro Espaço</title>
-    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="style.css?v=6">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f172a">
     <script src="pwa.js" defer></script>
 </head>
 <body>
+    <div id="install-banner" class="install-banner hidden">
+        <div class="install-banner-content">
+            <img src="icons/icon-192.png" alt="Ícone" class="install-banner-icon">
+            <div class="install-banner-text">
+                <strong>Instalar Aplicativo</strong>
+                Tenha o Dez-envolve na sua tela inicial para acesso rápido.
+            </div>
+        </div>
+        <div class="install-banner-actions">
+            <button id="btn-install" class="btn-install">Instalar</button>
+            <button id="btn-close-install" class="btn-close-banner">&times;</button>
+        </div>
+    </div>
+
     <nav class="navbar">
         <div class="brand-container">
             <img src="icons/icon-192.png" alt="Logo" class="nav-icon" onerror="this.style.display='none'">
@@ -17,10 +31,9 @@
         </div>
         <div id="user-nav">
             <button id="btn-login" class="btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;">Entrar</button>
-            
             <div id="user-section-nav" class="hidden" style="display: flex; gap: 15px; align-items: center;">
                 <a href="admin.html" style="font-size: 0.9rem; color: #10b981; font-weight: bold; text-decoration: none;">Painel Admin</a>
-                <a href="perfil.html" style="font-size: 0.9rem; color: white; text-decoration: underline;">Meu Perfil (Histórico)</a>
+                <a href="perfil.html" style="font-size: 0.9rem; color: white; text-decoration: underline;">Meu Perfil</a>
                 <button id="btn-logout" class="btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;">Sair</button>
             </div>
         </div>
@@ -39,32 +52,16 @@
             
             <style>
                 .scroll-menu {
-                    display: flex;
-                    overflow-x: auto;
-                    gap: 10px;
-                    padding: 10px 0;
-                    margin-bottom: 20px;
-                    scrollbar-width: none;
-                    -ms-overflow-style: none;
+                    display: flex; overflow-x: auto; gap: 10px; padding: 10px 0; margin-bottom: 20px;
+                    scrollbar-width: none; -ms-overflow-style: none;
                 }
-                .scroll-menu::-webkit-scrollbar {
-                    display: none;
-                }
+                .scroll-menu::-webkit-scrollbar { display: none; }
                 .filter-btn {
-                    background-color: #f1f5f9;
-                    border: 1px solid #cbd5e1;
-                    border-radius: 20px;
-                    padding: 8px 16px;
-                    cursor: pointer;
-                    font-weight: 500;
-                    font-size: 0.9rem;
-                    white-space: nowrap;
-                    transition: all 0.3s ease;
+                    background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 20px;
+                    padding: 8px 16px; cursor: pointer; font-weight: 500; font-size: 0.9rem;
+                    white-space: nowrap; transition: all 0.3s ease;
                 }
-                .filter-btn.active {
-                    background-color: #0f172a;
-                    color: white;
-                }
+                .filter-btn.active { background-color: #0f172a; color: white; }
             </style>
 
             <div id="category-filters" class="scroll-menu">
@@ -81,6 +78,7 @@
                 <button class="filter-btn" data-categoria="c10">Comunicação</button>
                 <button class="filter-btn" data-categoria="e1">Profissão e Empreendedorismo</button>
             </div>
+
             <div id="feed-posts">
                 <p style="color: #64748b;">Carregando conteúdos...</p>
             </div>
