@@ -1,28 +1,22 @@
-const CACHE_NAME = 'dez-env-v1';
+importScripts('https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/10.8.1/firebase-messaging-compat.js');
 
-// Instalação do Service Worker
-self.addEventListener('install', (event) => {
-    self.skipWaiting();
+// Configuração básica do Firebase dentro do SW
+firebase.initializeApp({
+    apiKey: "SUA_API_KEY_AQUI", // Use os mesmos dados do seu firebase-config.js
+    projectId: "SEU_PROJECT_ID",
+    messagingSenderId: "SEU_SENDER_ID"
 });
 
-// Ativação e limpeza de caches antigos
-self.addEventListener('activate', (event) => {
-    event.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cache) => {
-                    if (cache !== CACHE_NAME) {
-                        return caches.delete(cache);
-                    }
-                })
-            );
-        })
-    );
-});
+const messaging = firebase.messaging();
 
-// Intercepta as requisições (Obrigatório para PWA)
-self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        fetch(event.request).catch(() => caches.match(event.request))
-    );
+// Exibe a notificação na tela quando o site estiver em segundo plano
+messaging.onBackgroundMessage((payload) => {
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: '/icons/icon-192.png'
+  };
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
