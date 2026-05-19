@@ -3,45 +3,33 @@ import { signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstati
 import { collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 // =========================================================================
-// 1. LÓGICA DO BANNER DE INSTALAÇÃO DO PWA (A Mini Janela)
+// 1. BANNER PWA
 // =========================================================================
 let deferredPrompt;
 const installBanner = document.getElementById('install-banner');
 const btnInstall = document.getElementById('btn-install');
 const btnCloseInstall = document.getElementById('btn-close-install');
 
-// Escuta o evento do navegador que permite a instalação
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Impede o Chrome de mostrar o prompt nativo automático (que é confuso)
     e.preventDefault();
-    // Guarda o evento para dispararmos depois
     deferredPrompt = e;
-    // Mostra o nosso banner premium no topo da tela
     if (installBanner) installBanner.classList.remove('hidden');
 });
 
 if (btnInstall) {
     btnInstall.addEventListener('click', async () => {
-        // Esconde o banner
         installBanner.classList.add('hidden');
         if (deferredPrompt) {
-            // Mostra o prompt real de instalação do sistema operacional
             deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`Resultado da instalação: ${outcome}`);
+            await deferredPrompt.userChoice;
             deferredPrompt = null;
         }
     });
 }
-
-if (btnCloseInstall) {
-    btnCloseInstall.addEventListener('click', () => {
-        installBanner.classList.add('hidden');
-    });
-}
+if (btnCloseInstall) btnCloseInstall.addEventListener('click', () => installBanner.classList.add('hidden'));
 
 // =========================================================================
-// 2. AUTENTICAÇÃO E NAVEGAÇÃO BÁSICA
+// 2. AUTENTICAÇÃO
 // =========================================================================
 const btnLogin = document.getElementById("btn-login");
 const btnLogout = document.getElementById("btn-logout");
@@ -54,13 +42,8 @@ const userSectionNav = document.getElementById("user-section-nav");
 
 let allPosts = []; 
 
-if(btnLogin) {
-    btnLogin.addEventListener("click", () => { signInWithPopup(auth, provider).catch(console.error); });
-}
-
-if(btnLogout) {
-    btnLogout.addEventListener("click", () => { signOut(auth); });
-}
+if(btnLogin) btnLogin.addEventListener("click", () => signInWithPopup(auth, provider).catch(console.error));
+if(btnLogout) btnLogout.addEventListener("click", () => signOut(auth));
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -68,42 +51,45 @@ onAuthStateChanged(auth, (user) => {
         if(userSection) userSection.classList.remove("hidden");
         if(userNameSpan) userNameSpan.textContent = user.displayName;
         if(btnLogin) btnLogin.classList.add("hidden");
-        if(userSectionNav) {
-            userSectionNav.classList.remove("hidden");
-            userSectionNav.style.display = 'flex';
-        }
+        if(userSectionNav) { userSectionNav.classList.remove("hidden"); userSectionNav.style.display = 'flex'; }
     } else {
         if(loginSection) loginSection.classList.remove("hidden");
         if(userSection) userSection.classList.add("hidden");
         if(btnLogin) btnLogin.classList.remove("hidden");
-        if(userSectionNav) {
-            userSectionNav.classList.add("hidden");
-            userSectionNav.style.display = 'none';
-        }
+        if(userSectionNav) { userSectionNav.classList.add("hidden"); userSectionNav.style.display = 'none'; }
     }
 });
 
 // =========================================================================
-// 3. FEED DE CONTEÚDO E FILTROS
+// 3. MOTOR DO PORTAL DE NOTÍCIAS (GRID)
 // =========================================================================
+const categoriasMap = {
+    c1: "Organização", c2: "Tempo", c3: "Estudo", c4: "Digital",
+    c5: "Finanças", c6: "Decisão", c7: "Leitura", c8: "Disciplina",
+    c9: "Autoconhecimento", c10: "Comunicação", e1: "Profissão"
+};
+
 function renderizarPosts(posts) {
     if(!feedPosts) return;
     feedPosts.innerHTML = ""; 
     
     if(posts.length === 0) {
-        feedPosts.innerHTML = "<p style='color: #64748b;'>Nenhum conteúdo encontrado para esta trilha no momento.</p>";
+        feedPosts.innerHTML = "<p style='color: #6b7280;'>Nenhuma atualização nesta editoria.</p>";
         return;
     }
 
+    // Geração do layout de portal (Cards em Grid)
     posts.forEach((item) => {
-        const catTag = item.post.categoria ? item.post.categoria.toUpperCase() : 'GERAL';
+        const catId = item.post.categoria;
+        const catTag = categoriasMap[catId] ? categoriasMap[catId] : 'GERAL';
+        const dataStr = new Date(item.post.dataCriacao).toLocaleDateString('pt-BR');
         
         const card = `
-            <div class="post-card">
-                <a href="post.html?id=${item.id}" style="display:block; font-weight:bold; margin-bottom: 5px;">${item.post.titulo}</a>
-                <span style="font-size: 0.7rem; background: #e2e8f0; color: #334155; padding: 3px 8px; border-radius: 12px; display: inline-block; margin-bottom: 8px;">TRILHA: ${catTag}</span>
-                <p style="font-size: 0.85rem; color: #64748b;">Postado em: ${new Date(item.post.dataCriacao).toLocaleDateString('pt-BR')}</p>
-            </div>
+            <article class="news-card">
+                <span class="news-category">${catTag}</span>
+                <a href="post.html?id=${item.id}" class="news-title">${item.post.titulo}</a>
+                <div class="news-date">${dataStr}</div>
+            </article>
         `;
         feedPosts.innerHTML += card;
     });
@@ -121,19 +107,17 @@ async function carregarFeed() {
         });
         renderizarPosts(allPosts); 
     } catch (error) {
-        feedPosts.innerHTML = "<p>Erro ao carregar os conteúdos.</p>";
+        feedPosts.innerHTML = "<p>Erro ao carregar as notícias.</p>";
     }
 }
 
 if(categoryFilters) {
     categoryFilters.addEventListener("click", (e) => {
-        if(e.target.tagName === "BUTTON") {
-            Array.from(categoryFilters.children).forEach(btn => {
-                btn.style.backgroundColor = "#f1f5f9";
-                btn.style.color = "black";
-            });
-            e.target.style.backgroundColor = "#0f172a";
-            e.target.style.color = "white";
+        if(e.target.classList.contains("filter-btn")) {
+            // Remove active de todos
+            Array.from(categoryFilters.children).forEach(btn => btn.classList.remove("active"));
+            // Ativa o clicado
+            e.target.classList.add("active");
 
             const categoriaSelecionada = e.target.getAttribute("data-categoria");
             
