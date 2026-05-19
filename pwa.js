@@ -14,7 +14,7 @@ if ('serviceWorker' in navigator) {
                     console.log('Permissão para notificações concedida.');
                     const messaging = getMessaging();
                     
-                    // 👉 COLE A SUA VAPID KEY ENTRE AS ASPAS ABAIXO 👈
+                    // A Vapid Key real inserida
                     const vapidKey = "BN8Q4_eL2IIS7xHi_M9akfYCd8EWji2479gQjQIf_CX57bLxlAOH96tG9E76__-srpcDeYAucXgt6UZrHY0VlSM";
                     
                     getToken(messaging, { vapidKey: vapidKey, serviceWorkerRegistration: registration })
