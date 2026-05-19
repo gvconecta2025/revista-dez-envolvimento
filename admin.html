@@ -4,47 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Admin - DEZ-ENVOLVE</title>
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="pwa.js" defer></script>
 </head>
 <body>
+    <nav class="navbar">
+        <a href="index.html" class="brand-container">
+            <img src="icons/icon-192.png" alt="Logo" class="nav-icon">
+            <span class="brand" style="font-size: 1rem;">← Voltar ao App</span>
+        </a>
+    </nav>
+
     <div class="main-wrapper">
-        <div class="container">
-            <div style="display: flex; gap: 5px; margin-bottom: 20px;">
-                <button id="btn-show-form" class="btn-primary">✍️ Post</button>
-                <button id="btn-show-manage" class="btn-secondary">📂 Artigos</button>
-                <button id="btn-show-dash" class="btn-secondary">📊 Dash</button>
-                <button id="btn-show-notify" class="btn-secondary" style="background:#10b981; color:white;">📢 Push</button>
+        <div class="container post-content">
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap;">
+                <button id="btn-show-form" class="btn-primary" style="flex: 1; min-width: 120px;">✍️ Escrever</button>
+                <button id="btn-show-manage" class="btn-secondary" style="flex: 1; min-width: 120px;">📂 Gerenciar</button>
+                <button id="btn-show-dash" class="btn-secondary" style="flex: 1; min-width: 120px;">📊 Raio-X</button>
             </div>
 
             <div id="admin-form-section">
                 <h2 id="form-title">Criar Novo Post</h2>
-                <p id="status-msg" class="hidden">Sucesso!</p>
+                <p id="status-msg" class="hidden" style="color: #10b981; font-weight: bold; margin-bottom: 15px;">Ação realizada com sucesso!</p>
+                
                 <form id="form-post">
                     <input type="hidden" id="edit-post-id" value="">
-                    <input type="text" id="titulo" required placeholder="Título">
-                    <select id="categoria" required>
-                        <option value="" disabled selected>Categoria...</option>
-                        <option value="c1">Organização</option><option value="c3">Método</option>
+
+                    <label for="titulo" style="font-weight: 600;">Título do Post</label>
+                    <input type="text" id="titulo" required placeholder="Digite um título chamativo">
+
+                    <label for="categoria" style="font-weight: 600; display: block; margin-top: 15px; margin-bottom: 5px;">Trilha de Capacitação (Pais/Família)</label>
+                    <select id="categoria" required style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 5px; font-size: 16px; background-color: #fff;">
+                        <option value="" disabled selected>Selecione a área de conhecimento...</option>
+                        <optgroup label="Construção e Recuperação">
+                            <option value="c1">C1 - Organização Pessoal</option>
+                            <option value="c2">C2 - Gestão de Tempo</option>
+                            <option value="c3">C3 - Método de Estudo</option>
+                            <option value="c4">C4 - Inteligência Digital e IA</option>
+                            <option value="c5">C5 - Educação Financeira</option>
+                            <option value="c6">C6 - Tomada de Decisão</option>
+                            <option value="c7">C7 - Leitura e Interpretação Crítica</option>
+                            <option value="c8">C8 - Disciplina e Constância</option>
+                            <option value="c9">C9 - Autoconhecimento e Direção</option>
+                            <option value="c10">C10 - Comunicação e Expressão</option>
+                        </optgroup>
+                        <optgroup label="Eixos Práticos">
+                            <option value="e1">Eixo - Profissão e Empreendedorismo</option>
+                        </optgroup>
                     </select>
-                    <div id="editor-container" style="height: 200px; background: white;"></div>
-                    <button type="submit" id="btn-submit-post" class="btn-primary" style="margin-top:20px;">Publicar</button>
-                    <button type="button" id="btn-cancel-edit" class="btn-secondary hidden">Cancelar</button>
+                    
+                    <label style="font-weight: 600; display: block; margin-bottom: 5px;">Conteúdo (Texto, formatações e imagens)</label>
+                    <div id="editor-container" style="min-height: 200px; background: white; border-radius: 0 0 8px 8px;"></div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="submit" id="btn-submit-post" class="btn-primary" style="flex: 2;">Publicar Artigo</button>
+                        <button type="button" id="btn-cancel-edit" class="btn-secondary hidden" style="flex: 1;">Cancelar</button>
+                    </div>
                 </form>
             </div>
 
-            <div id="admin-manage-section" class="hidden"><div id="manage-list"></div></div>
-            <div id="admin-dash-section" class="hidden"><div id="dash-list"></div></div>
-            
-            <div id="admin-notify-section" class="hidden">
-                <h2>Notificação Push</h2>
-                <input type="text" id="push-title" placeholder="Título">
-                <textarea id="push-body" placeholder="Mensagem"></textarea>
-                <button id="btn-send-push" class="btn-primary" style="background:#10b981;">Enviar Push</button>
-                <p id="push-status-msg"></p>
+            <div id="admin-manage-section" class="hidden">
+                <h2 style="color: #0f172a;">Gerenciar Artigos</h2>
+                <div id="manage-list"><p style="color: #64748b; text-align: center;">Carregando seus artigos...</p></div>
             </div>
+
+            <div id="admin-dash-section" class="hidden">
+                <h2 style="color: #0f172a;">Inteligência de Negócio</h2>
+                <div id="dash-list"><p style="color: #64748b; text-align: center;">Carregando banco de dados...</p></div>
+            </div>
+
         </div>
     </div>
+
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script type="module" src="admin.js"></script>
 </body>
