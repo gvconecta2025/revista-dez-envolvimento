@@ -3,10 +3,14 @@
 /* ==========================================================================
    RESET E BASE (Padrão Portal de Notícias)
    ========================================================================== */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
 
 body {
-    background-color: #f3f4f6; /* Cinza bem claro, padrão de portais */
+    background-color: #f3f4f6;
     color: #1f2937;
     line-height: 1.6;
     font-family: 'Inter', -apple-system, sans-serif;
@@ -67,10 +71,10 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* ==========================================================================
-   ESTRUTURA PRINCIPAL
+   ESTRUTURA PRINCIPAL (Desktop vs Mobile)
    ========================================================================== */
 .main-wrapper {
-    max-width: 1000px; /* Mais largo para caber o grid de notícias */
+    max-width: 1000px;
     margin: 0 auto;
     padding: 20px 15px;
 }
@@ -121,7 +125,7 @@ input[type="text"], select, textarea {
 .filter-btn.active { color: #2563eb; border-bottom-color: #2563eb; }
 
 /* ==========================================================================
-   GRID DE NOTÍCIAS (As Manchetes)
+   GRID DE NOTÍCIAS (As Manchetes da Capa)
    ========================================================================== */
 .news-grid {
     display: grid;
@@ -141,7 +145,7 @@ input[type="text"], select, textarea {
 .news-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
 .news-category {
-    font-size: 0.75rem; font-weight: 800; color: #dc2626; /* Vermelho portal */
+    font-size: 0.75rem; font-weight: 800; color: #dc2626;
     text-transform: uppercase; margin-bottom: 8px; display: inline-block;
 }
 
@@ -157,12 +161,83 @@ input[type="text"], select, textarea {
 }
 
 /* ==========================================================================
-   PÁGINA DE LEITURA (O Artigo)
+   PÁGINA DE LEITURA (O Artigo Limpo e Amplo)
    ========================================================================== */
 .post-content {
-    background: #ffffff; padding: 30px 20px; border: 1px solid #e5e7eb;
-    font-size: 1.1rem; line-height: 1.8; color: #374151;
+    background: #ffffff; 
+    padding: 35px 30px; 
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 1.15rem; 
+    line-height: 1.8; 
+    color: #374151;
 }
-.post-content h1 { font-size: 2.2rem; margin-bottom: 15px; line-height: 1.1; }
-.post-content img { max-width: 100%; height: auto; margin: 20px 0; }
-.ia-module { background: #f9fafb; border: 1px solid #e5e7eb; padding: 25px; margin-top: 40px; border-radius: 4px; }
+.post-content h1 { font-size: 2.4rem; margin-bottom: 15px; line-height: 1.15; }
+.post-content img { max-width: 100%; height: auto; margin: 24px 0; border-radius: 4px; }
+
+/* Módulo de Inteligência Artificial acoplado sem virar caixa flutuante */
+.ia-module { 
+    background: #f9fafb; 
+    border-top: 2px solid #e5e7eb; 
+    padding: 30px 0 0 0; 
+    margin-top: 40px; 
+}
+.ia-response-box {
+    background-color: #ffffff; border-left: 4px solid #2563eb; padding: 20px;
+    margin-top: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* ==========================================================================
+   MÍDIA QUERY: BLINDAGEM MOBILE (Elimina caixas e maximiza espaço horizontal)
+   ========================================================================== */
+@media (max-width: 768px) {
+    body {
+        background-color: #ffffff; /* Fundo branco nativo para sumir as bordas das caixas */
+    }
+    
+    .main-wrapper {
+        padding: 0; /* Zera o recuo da tela inteira lateralmente */
+    }
+
+    .portal-header {
+        border-left: none;
+        border-bottom: 4px solid #2563eb;
+        box-shadow: none;
+        padding: 15px;
+        margin-bottom: 10px;
+    }
+
+    .scroll-menu {
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-bottom: 15px;
+    }
+
+    /* Tela Inicial: Notícias ocupam largura total separadas por linha sutil */
+    .news-grid {
+        gap: 0;
+    }
+    .news-card {
+        border: none;
+        border-bottom: 1px solid #e5e7eb;
+        border-radius: 0;
+        padding: 20px 15px;
+    }
+
+    /* Tela do Artigo: Sumir com o 'Box dentro de Box' e dar sangria total */
+    .post-content {
+        border: none;
+        border-radius: 0;
+        padding: 20px 15px; /* Mantém apenas o micro-recuo para o texto não colar no vidro */
+        font-size: 1.1rem;
+    }
+    
+    .post-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .ia-module {
+        border-top: 1px solid #e5e7eb;
+        padding: 20px 0;
+    }
+}
