@@ -3,5 +3,7 @@
   "version": "1.0.0",
   "description": "Revista digital PWA com IA interativa",
   "scripts": {},
-  "dependencies": {}
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
 }
