@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DEZ-ENVOLVE - O Terceiro Espaço</title>
-    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="style.css?v=10">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0f172a">
+    <meta name="theme-color" content="#ffffff">
     <script src="pwa.js" defer></script>
 </head>
 <body>
@@ -14,8 +14,8 @@
         <div class="install-banner-content">
             <img src="icons/icon-192.png" alt="Ícone" class="install-banner-icon">
             <div class="install-banner-text">
-                <strong>Instalar Aplicativo</strong>
-                Tenha o Dez-envolve na sua tela inicial para acesso rápido.
+                <strong>Instalar Revista</strong>
+                Tenha o Dez-envolve na sua tela inicial.
             </div>
         </div>
         <div class="install-banner-actions">
@@ -30,10 +30,9 @@
             <span class="brand">DEZ-ENVOLVE</span>
         </div>
         <div id="user-nav">
-            <button id="btn-login" class="btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;">Entrar</button>
+            <button id="btn-login" class="btn-primary" style="padding: 8px 16px; font-size: 0.9rem;">Acessar</button>
             <div id="user-section-nav" class="hidden" style="display: flex; gap: 15px; align-items: center;">
-                <a href="admin.html" style="font-size: 0.9rem; color: #10b981; font-weight: bold; text-decoration: none;">Painel Admin</a>
-                <a href="perfil.html" style="font-size: 0.9rem; color: white; text-decoration: underline;">Meu Perfil</a>
+                <a href="admin.html" style="font-size: 0.9rem; color: #10b981; font-weight: bold;">Painel Admin</a>
                 <button id="btn-logout" class="btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;">Sair</button>
             </div>
         </div>
@@ -41,31 +40,31 @@
 
     <div class="main-wrapper">
         <div class="login-section" id="login-section">
-            <h2 style="color: #0f172a; margin-bottom: 10px;">Bem-vindo ao Terceiro Espaço</h2>
-            <p style="font-weight: 500;">O guia prático para pais e famílias.</p>
-            <p style="font-size: 0.95rem; color: #64748b; margin-top: 10px;">A escola ensina o "que" pensar, a casa ensina "quem" ser. Nós ensinamos o "como" fazer.</p>
-            <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 20px;">Faça login acima para acessar as Trilhas de Capacitação e a IA Mentora.</p>
+            <h2>O Terceiro Espaço</h2>
+            <p style="font-size: 1.1rem; font-weight: 500; color: #475569;">O guia prático para pais e famílias.</p>
+            <p style="font-size: 1rem; color: #64748b; margin-top: 15px; max-width: 600px; margin-left: auto; margin-right: auto;">A escola ensina o "que" pensar, a casa ensina "quem" ser. Nós ensinamos o "como" fazer.</p>
+            <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 30px;">Faça login acima para acessar as Trilhas de Capacitação e a IA Mentora.</p>
         </div>
 
         <div id="user-section" class="hidden">
-            <h2 style="margin-bottom: 20px; color: #0f172a; font-size: 1.4rem;">Olá, <span id="user-name"></span>!</h2>
+            <h2 style="margin-bottom: 25px; font-size: 1.8rem;">Olá, <span id="user-name" style="color: #10b981;"></span>.</h2>
             
             <style>
                 .scroll-menu {
-                    display: flex; overflow-x: auto; gap: 10px; padding: 10px 0; margin-bottom: 20px;
+                    display: flex; overflow-x: auto; gap: 10px; padding: 10px 0; margin-bottom: 30px;
                     scrollbar-width: none; -ms-overflow-style: none;
                 }
                 .scroll-menu::-webkit-scrollbar { display: none; }
                 .filter-btn {
                     background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 20px;
-                    padding: 8px 16px; cursor: pointer; font-weight: 500; font-size: 0.9rem;
-                    white-space: nowrap; transition: all 0.3s ease;
+                    padding: 8px 18px; cursor: pointer; font-weight: 600; font-size: 0.85rem;
+                    white-space: nowrap; transition: all 0.3s ease; font-family: 'Inter', sans-serif;
                 }
-                .filter-btn.active { background-color: #0f172a; color: white; }
+                .filter-btn.active { background-color: #0f172a; color: white; border-color: #0f172a;}
             </style>
 
             <div id="category-filters" class="scroll-menu">
-                <button class="filter-btn active" data-categoria="todas" style="background-color: #0f172a; color: white;">Todas as Trilhas</button>
+                <button class="filter-btn active" data-categoria="todas" style="background-color: #0f172a; color: white;">Últimas Edições</button>
                 <button class="filter-btn" data-categoria="c1">Organização Pessoal</button>
                 <button class="filter-btn" data-categoria="c2">Gestão de Tempo</button>
                 <button class="filter-btn" data-categoria="c3">Método de Estudo</button>
@@ -80,7 +79,7 @@
             </div>
 
             <div id="feed-posts">
-                <p style="color: #64748b;">Carregando conteúdos...</p>
+                <p style="color: #64748b; font-family: 'Inter', sans-serif;">Carregando edições...</p>
             </div>
         </div>
     </div>
