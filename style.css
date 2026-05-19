@@ -6,50 +6,49 @@ body {
     background-color: #ffffff;
     color: #1a1a1a;
     font-family: 'Inter', sans-serif;
-    line-height: 1.8;
+    line-height: 1.6;
     padding-bottom: 80px;
 }
 
-/* Layout Principal (focado na leitura) */
-.main-wrapper {
-    max-width: 720px; /* Largura ideal para leitura de revistas */
-    margin: 0 auto;
-    padding: 40px 20px;
+.main-wrapper { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+/* Cabeçalho */
+.navbar { padding: 20px 0; border-bottom: 1px solid #eee; text-align: center; margin-bottom: 30px; }
+.brand { font-family: 'Merriweather', serif; font-size: 2rem; font-weight: 900; color: #000; }
+
+/* Grid de Posts - AQUI ESTAVA O PROBLEMA */
+.news-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 30px; 
+    margin-top: 20px; 
 }
 
-/* Tipografia Editorial */
-h1, h2, h3 { 
-    font-family: 'Merriweather', serif; 
-    color: #000000; 
-    margin-bottom: 1.5rem; 
+.news-card { 
+    border-bottom: 1px solid #eee; 
+    padding-bottom: 20px; 
+    display: flex; 
+    flex-direction: column;
 }
 
-h1 { font-size: 2.5rem; line-height: 1.2; }
+.news-category { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+.news-title { font-size: 1.4rem; font-family: 'Merriweather', serif; margin: 10px 0; display: block; color: #000; font-weight: 700; }
+.news-date { font-size: 0.8rem; color: #999; }
 
-/* Botões e Interação Minimalistas */
-.btn-primary {
-    background: #000; color: #fff; padding: 12px 24px;
-    border: none; border-radius: 99px; cursor: pointer;
-    font-weight: 600; font-size: 0.9rem;
-}
-.btn-secondary {
-    background: #f0f0f0; color: #000; padding: 10px 20px;
-    border: none; border-radius: 99px; cursor: pointer;
-    font-weight: 600; font-size: 0.9rem;
-}
+/* Botões e Forms */
+.btn-primary { background: #000; color: #fff; padding: 12px 24px; border-radius: 99px; border: none; cursor: pointer; font-weight: 600; }
+.btn-secondary { background: #f0f0f0; padding: 8px 16px; border-radius: 99px; border: none; font-size: 0.8rem; }
 
-/* Cartões (Feed de notícias estilo Newsletter) */
-.news-grid { display: flex; flex-direction: column; gap: 40px; }
-.news-card { border-bottom: 1px solid #eee; padding-bottom: 20px; }
-.news-category { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
-.news-title { font-size: 1.5rem; font-family: 'Merriweather', serif; margin: 10px 0; display: block; }
-.news-date { font-size: 0.85rem; color: #888; }
+/* Menu de Filtros */
+.scroll-menu { display: flex; overflow-x: auto; gap: 15px; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+.filter-btn { background: none; border: none; color: #888; font-weight: 600; cursor: pointer; white-space: nowrap; font-size: 0.9rem; }
+.filter-btn.active { color: #000; border-bottom: 2px solid #000; }
 
-/* Conteúdo do Post */
-.post-content { font-size: 1.2rem; line-height: 1.8; }
+/* Artigo */
+.post-content { font-size: 1.15rem; line-height: 1.8; color: #333; }
 .post-content img { width: 100%; border-radius: 8px; margin: 20px 0; }
 
 @media (max-width: 600px) {
-    h1 { font-size: 2rem; }
-    .main-wrapper { padding: 20px 15px; }
+    .main-wrapper { padding: 15px; }
+    .news-grid { grid-template-columns: 1fr; }
 }
